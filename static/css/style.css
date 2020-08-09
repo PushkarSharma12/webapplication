@@ -1,0 +1,623 @@
+
+* {
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    
+    font-family: 'Segoe UI';
+    font-size: 25px;
+}
+p{
+    font-size: 14px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+}
+
+.form input {
+    min-width: 400px;
+    display: block;
+    margin: 20px;
+    padding: 15px 20px;
+    background-color: #ece7e7;
+    font-size: 20px;
+    border: none;
+    outline: none;
+    font-size: 22px;
+    box-shadow: 15px 15px 25px #a8a8a8;
+    transition: box-shadow 0.5s;
+}
+
+.form input:focus {
+    box-shadow: 5px 5px 15px #a8a8a8;
+}
+
+.form .btn {
+    margin: auto;
+    padding: 10px 35px;
+    background-color: #f1a566;
+    color: #fff;
+    border: none;
+    font-size: 22px;
+    border-radius: 10px;
+    box-shadow: 15px 15px 25px #a8a8a8;
+    transition: box-shadow 0.5s;
+    outline: none;
+}
+
+.form .btn:hover {
+    box-shadow: 5px 5px 15px #aaa;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 50vh;
+    width: 50vw;
+    position: absolute;
+    bottom: 0px;
+    font-size: 35px;
+}
+
+.left-section .form {
+    float: left;
+    margin: 35vh auto;
+}
+
+.right-section .form {
+    float: right;
+    right: 0;
+    margin: 30vh auto;
+}
+
+.cover .switch-btn {
+    position: absolute;
+    bottom: 0;
+    font-size: 25px;
+    margin: 40vh auto;
+    padding: 10px 55px;
+    background-color: #f1a566;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 15px 15px 25px #a8a8a8;
+    transition: box-shadow 0.5s;
+    outline: none;
+}
+
+.cover .switch-btn:hover {
+    box-shadow: 5px 5px 15px #aaa;
+}
+
+.left-section .cover {
+    float: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.left-section .cover img {
+    height: 100vh;
+    width: 50vw;
+}
+
+.left-section .cover h1 {
+    position: absolute;
+    bottom: 0px;
+    margin: 60vh auto;
+    color: #fff;
+    font-size: 50px;
+}
+
+.left-section .cover h3 {
+    position: absolute;
+    bottom: 0px;
+    margin: 50vh auto;
+    color: #fff;
+    font-size: 35px;
+}
+
+.left-section .cover-hide {
+    visibility: hidden;
+}
+
+.left-section .form-hide {
+    visibility: hidden;
+}
+.right-section .cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.right-section .cover img {
+    height: 100vh;
+    width: 50vw;
+}
+.right-section .cover h1 {
+    position: absolute;
+    bottom: 0px;
+    margin: 60vh auto;
+    color: #fff;
+    font-size: 50px;
+}
+
+.right-section .cover h3 {
+    position: absolute;
+    bottom: 0px;
+    margin: 50vh auto;
+    color: #fff;
+    font-size: 35px;
+}
+
+.right-section .cover-hide {
+    visibility: hidden;
+}
+
+.right-section .form-hide {
+    visibility: hidden;
+}
+
+.fade-in-element {
+    animation-name: fade-in-element;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+
+
+#phph4 {
+    text-decoration: none;
+    color: black;
+    font-family: 'Segoe UI';
+}
+.Introduction{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+
+    overflow: hidden;
+    background: url(/static/images/background-desk\ \(1\).jpg) #f2f2f2;
+    background-size: 100% auto;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    padding-bottom: 40%;
+}
+.Introduction img{
+    height: 200px;
+    margin-left: 40px;
+}
+
+.Introduction p{
+    text-align: center;
+    color: #585858;
+    font-size: 18px;
+    width: 60%;
+}
+.Introduction a{
+    margin-top: 20px;
+    vertical-align: middle;
+    font-size: 19px;
+    text-decoration: none;
+    color: rgb(76, 76, 76);
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background-color: rgb(253, 217, 98);
+    font-weight: bold;
+    border-radius: 10px;
+}
+.features{
+    
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        align-items: center;
+        padding-bottom: 10%;
+    
+}
+.features p{
+    text-align: center;
+    color: #585858;
+    font-size: 18px;
+    width: 40%;
+}
+.features h1{
+    font-size: 40px;
+    font-weight: 400;
+    color: #585858;
+}
+.features a{
+    margin-top: 20px;
+    vertical-align: middle;
+    font-size: 16px;
+    text-decoration: none;
+    color: rgb(76, 76, 76);
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: rgb(253, 217, 98);
+
+    border-radius: 10px;
+}
+#topnav {
+    display: flex;
+    flex-direction: row;
+    height: 12vh;
+    width: 100%;
+    justify-content: space-around;
+    background-color: rgb(253, 217, 98);
+
+    font-family: 'Segoe UI';
+}
+#topnav li {
+    list-style: none;
+}
+.nav-links{
+    display: flex;
+    justify-content: space-around;
+    width: 35%;
+}
+.nav-links a {   
+    margin-top: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
+    font-family: 'Segoe UI';
+
+}
+#imageLogo{
+    left: 0px;
+    margin-left: 0px;
+    position: relative;
+    float: left;
+    width:  140px;
+    height: 100px;
+
+}
+.burger{
+    display: none;
+}
+.burger div{
+   
+    width: 30px;
+    height: 3px;
+    background-color: black;
+    margin: 4px;
+    transition : all 0.3s ease;
+    
+}
+#mname {
+    text-align: center;
+    padding-top: 0px;
+    font-size: 35px;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing: 3px;
+}
+
+.applink{
+    display: flex;
+    flex-direction: row;
+}
+.applink img{
+    height: 100px;
+}
+.applink a{
+    padding: 0px;
+    background-color: transparent;
+}
+.thank h1{
+    font-size: 92px;
+    text-align: center;
+    font-family: sans-serif;
+
+}
+@keyframes fade-in-element {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+@media only screen and (max-width:1280px) {
+    .nav-links{
+        width: 50%;
+        
+    }
+    .features p{
+        width: 80%;
+    }
+}
+/*for mobile*/
+@media only screen and (max-width: 568px) {
+    .Introduction{
+        background-image: none;
+    }
+}
+    @media only screen and (max-width: 768px) {
+        body {
+            margin: 0px;
+            padding: 0px;
+            font-family: 'Segoe UI';
+            font-size: 14px;
+            overflow-x: hidden;
+            
+        }
+     
+        .form input {
+            min-width: 150px;
+            display: block;
+            margin: 20px;
+            padding: 7px 15px;
+            background-color: white;
+            font-size: 17px;
+            border: none;
+            outline: none;
+            font-size: 15px;
+            box-shadow: 10px 10px 20px #a8a8a8;
+            transition: box-shadow 0.5s;
+        }
+        .features p{
+            width: 80%;
+        }
+        .form .btn {
+            margin: auto;
+            padding: 13px 25px;
+            background-color: #f1a566;
+            color: #fff;
+            border: none;
+            font-size: 21px;
+            border-radius: 10px;
+            box-shadow: 15px 15px 25px #a8a8a8;
+            transition: box-shadow 0.5s;
+            outline: none;
+        }
+        
+        .cover .switch-btn {
+            position: relative;
+            bottom: 0;
+            font-size: 25px;
+            margin: 40vh auto;
+            padding: 10px 55px;
+            background-color: #f1a566;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 15px 15px 25px #a8a8a8;
+            transition: box-shadow 0.5s;
+            outline: none;
+        }
+        
+        .cover .switch-btn:hover {
+            box-shadow: 5px 5px 15px #aaa;
+        }
+        
+        .left-section .cover {
+            float: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            
+        }
+        .left-section .cover .switch-btn{
+            position: absolute;
+            margin-bottom: 43.5vh;
+        }
+        
+        
+        .left-section .form {
+            float: left;
+            margin: 35vh auto;
+        }
+        
+        .left-section .cover h1 {
+            position: absolute;
+            bottom: 0px;
+            margin: 60vh auto;
+            margin-bottom: 65vh;
+            color: #fff;
+            font-size: 40px;
+        }
+        
+        .left-section .cover h3 {
+            position: absolute;
+            bottom: 0px;
+            margin: 50vh auto;
+            margin-bottom: 57vh;
+            color: #fff;
+            font-size: 21px;
+        }
+        
+        .left-section .cover-hide {
+            visibility: hidden;
+        }
+        
+        .left-section .form-hide {
+            visibility: hidden;
+        }
+        
+        .right-section .cover {
+            display: flex;
+            flex-direction: column;  
+            justify-content: space-around;
+            
+        }
+       
+        .right-section .cover fade-in-element{
+            float: right;
+        }
+        .right-section .cover-hide {
+            visibility: hidden;
+        }
+        
+        .right-section .form-hide {
+            visibility: hidden;
+        }
+        .right-section .cover img {
+            height: 100vh;
+            width: 50vw; 
+            z-index: auto;
+        }
+        .right-section .cover .switch-btn{
+            position: absolute;
+            margin-bottom: 46vh;
+        }
+        .right-section .cover h1 {
+            position: absolute;
+            bottom: 0px;
+            margin: 60vh auto;
+            margin-bottom: 70vh;
+            color: #fff;
+            font-size: 40px;
+        }
+        .right-section .cover h3 {
+            position: absolute;
+            bottom: 0px;
+            margin: 50vh auto;
+            margin-bottom: 63vh;
+            color: #fff;
+            font-size: 21px;
+        }
+        
+        .right-section .form {
+            float: right;
+            right: 0;
+            margin: 35vh auto;
+        }
+        .fade-in-element {
+            animation-name: fade-in-element;
+            animation-duration: 1s;
+            animation-fill-mode: forwards;
+        }
+    .burger{
+        position: relative;
+        float: right;
+        display: flex;
+        flex-direction: column;
+        margin-top:27px ;
+        margin-right: -100px;
+        right: 0px;
+        cursor: pointer;
+        
+    }
+    #topnav {
+        display: flex;
+        flex-direction: row;
+        height: 12vh;
+        
+    }
+    #imageLogo{
+        position: absolute;
+        
+    }
+    .nav-links{
+        /* remove */
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        right: 0px;
+        margin-top: 8vh;
+        height: 100%;
+        width: 29.8%;
+        padding: 0px;
+        top: 0vh;
+        background-color: rgb(255, 216, 89);
+        align-items: center;
+        transform: translateX(100%);
+        transition: transform 0.5s ease-in;
+        
+    }
+    .nav-links li {
+        opacity: 0;
+    }
+    @keyframes fade-in-element {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+        
+}
+
+
+}
+.nav-active{
+    transform: translateX(0%);
+}
+@keyframes navLinkFade{
+    from{
+        opacity: 0;
+        transform: translateX(50px);
+        
+    }to{
+        opacity: 1;
+        transform: translateX(0px);
+        
+    }
+}
+.toggle .line1{
+    transform: rotate(-45deg)translate(-5px,10px);
+}
+.toggle .line2{
+    opacity:0;
+}
+.toggle .line3{
+    transform: rotate(45deg)translate(-5px,-10px);
+}
+@media only screen and (max-width: 600px) {
+    .right-section .cover h3 {
+        position: absolute;
+        bottom: 0px;
+        margin: 50vh auto;
+        margin-bottom: 63vh;
+        color: #fff;
+        font-size: 20px;
+    }
+
+    .left-section .cover h3 {
+        position: absolute;
+        bottom: 0px;
+        margin: 50vh auto;
+        margin-bottom: 57vh;
+        color: #fff;
+        font-size: 18px;
+    }
+    .form input {
+        min-width: 125px;
+        display: block;
+        margin: 20px;
+        padding: 7px 15px;
+        background-color: white;
+        font-size: 17px;
+        border: none;
+        outline: none;
+        font-size: 15px;
+        box-shadow: 10px 10px 20px #a8a8a8;
+        transition: box-shadow 0.5s;
+    }
+    .cover .switch-btn {
+        min-width: 125px;
+        display: block;
+        padding: 12px 15px;
+        font-size: 22px;
+    }
+    .form .input-box{
+        display: flex;
+        flex-direction: column;
+        width: 37vw;
+    }
+}

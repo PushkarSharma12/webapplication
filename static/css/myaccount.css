@@ -1,0 +1,91 @@
+.content-myaccount{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    justify-content: space-around;
+    
+}
+.content-myaccount .upload{
+        position: relative;
+        bottom: 0;
+        font-size: 25px;       
+        padding: 10px 35px;
+        background-color: #f1a566;
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        box-shadow: 15px 15px 25px #a8a8a8;
+        transition: box-shadow 0.5s;
+   
+        outline: none;
+}
+.upload {
+    cursor:pointer;
+}
+.files{
+    width: 100%;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.image-upload::-webkit-file-upload-button {
+    visibility: hidden;
+}
+.image-upload::before {
+    content: 'Select Profile Picture';
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: black;
+    display: block;
+    background: linear-gradient(top, #f9f9f9, #e3e3e3);
+    border: 1px solid #f1a566;
+    box-shadow: 10px 10px 20px #a8a8a8;
+    transition: box-shadow 0.5s;
+    border-radius: 3px;
+    padding: 5px 8px;
+    outline: none;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    cursor: pointer;
+    text-shadow: 1px 1px #fff;
+    letter-spacing: 2px;
+    font-size: 12pt;
+  }
+  .content-myaccount .image-upload:hover::before {
+    border-color: black;
+  }
+  .image-upload:active{
+    outline: 0;
+  }
+  .content-myaccount .image-upload:active::before {
+    background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+  }
+  .image-upload{
+      padding-top: 10px;
+      color: transparent;
+  }
+.profile-pic{
+            
+    height: 15vh;
+    width: 15vh;
+    display: flex;
+    flex-direction: row;
+    content: icon;
+    
+    
+}
+#logout{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 22px;
+    color: black;
+    text-decoration: none;
+    text-align: center;
+    letter-spacing: 3px; 
+}
+
+@media only screen and (max-width: 768px){
+    
+    
+}
