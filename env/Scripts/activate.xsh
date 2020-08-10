@@ -28,7 +28,7 @@ def _deactivate(args):
 _deactivate(["nondestructive"])
 aliases["deactivate"] = _deactivate
 
-$VIRTUAL_ENV = r"C:\xampp\htdocs\application\env"
+$VIRTUAL_ENV = r"C:\xampp\htdocs\webapplication\env"
 
 $_OLD_VIRTUAL_PATH = $PATH
 $PATH = $PATH[:]

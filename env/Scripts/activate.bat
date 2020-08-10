@@ -1,6 +1,6 @@
 @echo off
 
-set "VIRTUAL_ENV=C:\xampp\htdocs\application\env"
+set "VIRTUAL_ENV=C:\xampp\htdocs\webapplication\env"
 
 if defined _OLD_VIRTUAL_PROMPT (
     set "PROMPT=%_OLD_VIRTUAL_PROMPT%"
