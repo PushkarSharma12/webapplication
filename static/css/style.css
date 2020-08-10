@@ -354,7 +354,9 @@ p{
             overflow-x: hidden;
             
         }
-     
+        .applink img{
+            height: 70px;
+        }
         .form input {
             min-width: 150px;
             display: block;
