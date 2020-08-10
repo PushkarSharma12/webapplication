@@ -38,8 +38,6 @@ def login():
 @app.route('/signup')
 def signup():
     form = RegisterForm()
-
-    
     return render_template('signup.html',form = form)
 
 
