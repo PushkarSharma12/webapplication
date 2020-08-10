@@ -7,13 +7,9 @@ from flask_wtf import FlaskForm
 from flask_wtf.csrf import CSRFProtect, CSRFError
 from wtforms import StringField, PasswordField, BooleanField
 from wtforms.validators import InputRequired, Email, Length 
-from flask_mail import Mail
-from flask_mail import Message
-import os
-SECRET_KEY = os.urandom(32)
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = SECRET_KEY
+app.config['SECRET_KEY'] = "thisisgood"
 Bootstrap(app)
 
 class LoginForm(FlaskForm):
