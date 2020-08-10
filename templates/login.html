@@ -1,43 +1,24 @@
 {% extends 'base.html' %}
 {% block body %}
-
+{% import "bootstrap/wtf.html" as wtf %}
 <section class="left-section">
-    <div id="left-cover" class="cover cover-hide">
-        <img src="{{ url_for('static', filename='images/cover.png') }}" alt="">
-        <h1>Welcome !</h1>
-        <h3>Already have an account ?</h3>
-        <button type="button" class="switch-btn" onclick="location.reload()">Login</button>
-    </div>
+    
     <div id="left-form" class="form fade-in-element">
         <h1>Login</h1>
-        <form id="formLogin" action="login.php" method="post">
-            <input autocomplete="off" type="text" name="user-name" class="input-box" placeholder="User Name">
-            <input autocomplete="off" type="password" name="user-pass" class="input-box" placeholder="Password">
+        <form id="formLogin" action="/logincheck" method="POST">
+            {{ form.hidden_tag() }}
+            {{ wtf.form_field(form.username) }}
+            {{ wtf.form_field(form.password) }}
+            
             <input type="submit" name="login-btn" class="btn" value="Login">
         </form>
-        <div class="forgot"><a href="ResetPassword/reset-password.php"class="Forgot">Forgot Password?</a></div>
+        <div class="forgot"><a href="ResetPassword/reset-password.php"class="Forgot">Forgot Password?</a>
+            <a href="/signup"class="Forgot">Create Account</a>
+        </div>
 
     </div>
     
 </section>
 
-<section class="right-section">
-    <div id="right-cover" class="cover fade-in-element">
-        <img src="{{ url_for('static', filename='images/cover.png') }}" alt="">
-        <h1>Welcome !</h1>
-        <h3>Don't have an account ?</h3>
-        <button type="button" class="switch-btn" onclick="switchSignup()">Signup</button>
-    </div>
-    <div id="right-form" class="form form-hide">
-        <h1>Signup</h1>
-        <form action="signup.php" method="post">
-            <input type="text" name="user-name" class="input-box" placeholder="User Name">
-            <input type="email" name="user-email" class="input-box" placeholder="Email">
-            <input type="password" name="user-pass" class="input-box" placeholder="Password">
-            <input type="submit" name="signup-btn" class="btn" value="Signup">
-        </form>
-        <p></p>
-    </div>
-</section>
-<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
 {% endblock %}

@@ -11,7 +11,10 @@ html{
 }
 body {
     margin: 0;
-    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     font-family: 'Segoe UI';
     font-size: 25px;
 }
@@ -20,15 +23,22 @@ p{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
 }
-
+.content{
+    width:50%;
+}
+  label {
+    color: #666;
+    font-size: .875rem;
+  }
 .form input {
+    
     min-width: 400px;
     display: block;
     margin: 20px;
-    padding: 15px 20px;
+    padding: 15px 15px;
     background-color: #ece7e7;
     font-size: 20px;
-    border: none;
+    border: 0.1px solid #f1a566;
     outline: none;
     font-size: 22px;
     box-shadow: 15px 15px 25px #a8a8a8;
@@ -38,9 +48,33 @@ p{
 .form input:focus {
     box-shadow: 5px 5px 15px #a8a8a8;
 }
-
+input[type='checkbox'] {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    margin: 0px;
+    padding: 0px;
+    cursor: pointer;
+    height: 20px;
+    width: 20px;
+  }
+  input[type = 'checkbox'] ~ .checkmark {
+    background-color: #ccc;
+  }
+  input[type = 'checkbox']:checked ~ .checkmark {
+    background-color: #2196F3;
+  }
+  input[type='checkbox']:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  input[type='checkbox']:checked ~ .checkmark:after {
+    display: block;
+  }
+  
 .form .btn {
-    margin: auto;
+
     padding: 10px 35px;
     background-color: #f1a566;
     color: #fff;
@@ -59,116 +93,49 @@ p{
 .form {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
+    justify-content: center;
     height: 50vh;
-    width: 50vw;
+    width: 50%;
     position: absolute;
     bottom: 0px;
     font-size: 35px;
-}
 
+}
+.form h1{
+    text-align: center;
+    color: #666;
+}
 .left-section .form {
-    float: left;
-    margin: 35vh auto;
+   top: 100px;
+   left: 30%;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
 }
 
-.right-section .form {
-    float: right;
-    right: 0;
-    margin: 30vh auto;
+.forgot{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+}
+.forgot a{
+    margin-right: 10px;
 }
 
-.cover .switch-btn {
-    position: absolute;
-    bottom: 0;
-    font-size: 25px;
-    margin: 40vh auto;
-    padding: 10px 55px;
-    background-color: #f1a566;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    box-shadow: 15px 15px 25px #a8a8a8;
-    transition: box-shadow 0.5s;
-    outline: none;
-}
-
-.cover .switch-btn:hover {
-    box-shadow: 5px 5px 15px #aaa;
-}
-
-.left-section .cover {
-    float: left;
+.right-section .form{
+    top: 170px;
+    left: 25%;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
     align-items: center;
+    justify-content: center;
 }
-
-.left-section .cover img {
-    height: 100vh;
-    width: 50vw;
+.right-section .form input{
+    padding-top:8px;
+    border: 0.1px solid #f1a566;
 }
-
-.left-section .cover h1 {
-    position: absolute;
-    bottom: 0px;
-    margin: 60vh auto;
-    color: #fff;
-    font-size: 50px;
-}
-
-.left-section .cover h3 {
-    position: absolute;
-    bottom: 0px;
-    margin: 50vh auto;
-    color: #fff;
-    font-size: 35px;
-}
-
-.left-section .cover-hide {
-    visibility: hidden;
-}
-
-.left-section .form-hide {
-    visibility: hidden;
-}
-.right-section .cover {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-}
-
-.right-section .cover img {
-    height: 100vh;
-    width: 50vw;
-}
-.right-section .cover h1 {
-    position: absolute;
-    bottom: 0px;
-    margin: 60vh auto;
-    color: #fff;
-    font-size: 50px;
-}
-
-.right-section .cover h3 {
-    position: absolute;
-    bottom: 0px;
-    margin: 50vh auto;
-    color: #fff;
-    font-size: 35px;
-}
-
-.right-section .cover-hide {
-    visibility: hidden;
-}
-
-.right-section .form-hide {
-    visibility: hidden;
-}
-
 .fade-in-element {
     animation-name: fade-in-element;
     animation-duration: 1s;
@@ -261,7 +228,7 @@ p{
 #topnav {
     display: flex;
     flex-direction: row;
-    height: 12vh;
+    height: 8vh;
     width: 100%;
     justify-content: space-around;
     background-color: rgb(253, 217, 98);
@@ -270,14 +237,15 @@ p{
 }
 #topnav li {
     list-style: none;
+    margin: 0px;
 }
 .nav-links{
     display: flex;
+    align-items: center;
     justify-content: space-around;
     width: 35%;
 }
 .nav-links a {   
-    margin-top: 12px;
     letter-spacing: 4px;
     text-transform: uppercase;
     text-decoration: none;
@@ -286,13 +254,15 @@ p{
     font-family: 'Segoe UI';
 
 }
+
 #imageLogo{
     left: 0px;
+    top: 0px;
     margin-left: 0px;
     position: relative;
     float: left;
-    width:  140px;
-    height: 100px;
+    width:  100px;
+    height: 70px;
 
 }
 .features-2{
@@ -331,10 +301,7 @@ p{
     border-radius: 10px;
 }
 
-:after, :before {
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-}
+
 .features-2 p{
     text-align: left;
     color: #585858;
@@ -349,7 +316,6 @@ p{
     width: 70%;
 }
 .features-2 a{
-    margin-top: 20px;
     vertical-align: middle;
     font-size: 16px;
     text-decoration: none;
@@ -359,7 +325,6 @@ p{
     padding-top: 12px;
     padding-bottom: 12px;
     background-color: rgb(253, 217, 98);
-
     border-radius: 10px;
 }
 .burger{
@@ -406,12 +371,18 @@ p{
 
 .features-2 .images{
     position: relative;
-        margin-left: -83%;
+        margin-left: -40%;
         max-width: 100%;
         padding: 0;
-        margin-right: 0px;
-        
+        width: 50vw;  
     
+}
+.con{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: right;
+    text-align: right;
 }
 @keyframes fade-in-element {
     from {
@@ -437,6 +408,13 @@ p{
     }
 }
     @media only screen and (max-width: 768px) {
+        .features-2 .images{
+            position: relative;
+                max-width: 100%;
+                padding: 0;
+                width: 70vw;  
+            
+        }
         body {
             margin: 0px;
             padding: 0px;
@@ -445,6 +423,10 @@ p{
             overflow-x: hidden;
             
         }
+        .left-section .form {
+            top: 100px;
+            
+         }
         .features-2{
             display: flex;
             flex-direction: column;
@@ -462,23 +444,25 @@ p{
         }
         .features-2 p{
             text-align: center;
-            text-align: center;
             color: #585858;
             font-size: 16px;
-            width: 65%;
-            margin-left: 17%;
+            width: 150%;
+            margin-left: -10%;
             
         }
         .features-2 a{
             align-self: center;
-            margin-left: 35%;
+            margin-left: 25%;
         }
         .features-2 .images{
             position: relative;
-            margin-left: 1%;
+           margin-left: 10%;
             max-width: 100%;
 
             
+        }
+        .form{
+            top: 0px;
         }
         .features p{
             text-align: center;
@@ -503,7 +487,7 @@ p{
             padding: 7px 15px;
             background-color: white;
             font-size: 17px;
-            border: none;
+            border: 0.1px solid #f1a566;
             outline: none;
             font-size: 15px;
             box-shadow: 10px 10px 20px #a8a8a8;
@@ -512,6 +496,7 @@ p{
         .features p{
             width: 80%;
         }
+       
         .form .btn {
             margin: auto;
             padding: 13px 25px;
@@ -545,7 +530,7 @@ p{
         }
         
         .left-section .cover {
-            float: left;
+            
             display: flex;
             flex-direction: column;
             justify-content: space-around;
@@ -558,9 +543,9 @@ p{
         }
         
         
-        .left-section .form {
-            float: left;
-            margin: 35vh auto;
+        .left-section .form input{
+            border: 0.1px solid #f1a566;
+            padding-top: 20px;
         }
         
         .left-section .cover h1 {
@@ -581,73 +566,20 @@ p{
             font-size: 21px;
         }
         
-        .left-section .cover-hide {
-            visibility: hidden;
-        }
+      
         
-        .left-section .form-hide {
-            visibility: hidden;
-        }
-        
-        .right-section .cover {
-            display: flex;
-            flex-direction: column;  
-            justify-content: space-around;
-            
-        }
+     
        
-        .right-section .cover fade-in-element{
-            float: right;
-        }
-        .right-section .cover-hide {
-            visibility: hidden;
-        }
-        
-        .right-section .form-hide {
-            visibility: hidden;
-        }
-        .right-section .cover img {
-            height: 100vh;
-            width: 50vw; 
-            z-index: auto;
-        }
-        .right-section .cover .switch-btn{
-            position: absolute;
-            margin-bottom: 46vh;
-        }
-        .right-section .cover h1 {
-            position: absolute;
-            bottom: 0px;
-            margin: 60vh auto;
-            margin-bottom: 70vh;
-            color: #fff;
-            font-size: 40px;
-        }
-        .right-section .cover h3 {
-            position: absolute;
-            bottom: 0px;
-            margin: 50vh auto;
-            margin-bottom: 63vh;
-            color: #fff;
-            font-size: 21px;
-        }
-        
         .right-section .form {
-            float: right;
-            right: 0;
-            margin: 35vh auto;
+            top: 120px;
         }
-        .fade-in-element {
-            animation-name: fade-in-element;
-            animation-duration: 1s;
-            animation-fill-mode: forwards;
-        }
+        
     .burger{
         position: relative;
         float: right;
         display: flex;
         flex-direction: column;
-        margin-top:27px ;
+        margin-top:10px ;
         margin-right: -100px;
         right: 0px;
         cursor: pointer;
@@ -656,7 +588,7 @@ p{
     #topnav {
         display: flex;
         flex-direction: row;
-        height: 12vh;
+        height: 8vh;
         
     }
     #imageLogo{
@@ -665,7 +597,7 @@ p{
     }
     .nav-links{
         /* remove */
-        z-index: 9999;
+        z-index: 1000000;
         display: flex;
         flex-direction: column;
         position: fixed;
@@ -684,17 +616,18 @@ p{
     .nav-links li {
         opacity: 0;
     }
-    @keyframes fade-in-element {
-        from {
-            opacity: 0;
-        }
-        to {
-            opacity: 1;
-        }
-        
+   
+
+
 }
-
-
+@keyframes fade-in-element {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+    
 }
 .nav-active{
     transform: translateX(0%);
@@ -736,6 +669,9 @@ p{
         margin-bottom: 57vh;
         color: #fff;
         font-size: 18px;
+    }
+    .form {
+        top:0px;
     }
     .form input {
         min-width: 125px;

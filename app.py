@@ -1,11 +1,31 @@
-from flask import Flask,render_template, url_for
+from flask import Flask,render_template, url_for, request
 from flask import redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from flask_bootstrap import Bootstrap
+from flask_wtf import FlaskForm
+from flask_wtf.csrf import CSRFProtect, CSRFError
+from wtforms import StringField, PasswordField, BooleanField
+from wtforms.validators import InputRequired, Email, Length 
+from flask_mail import Mail
+from flask_mail import Message
+import os
+SECRET_KEY = os.urandom(32)
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
-db = SQLAlchemy(app)
+app.config['SECRET_KEY'] = SECRET_KEY
+Bootstrap(app)
+
+class LoginForm(FlaskForm):
+    username = StringField('Username', validators=[InputRequired(), Length(min = 4, max = 20)])
+    password = PasswordField('Password', validators=[InputRequired(), Length(min = 8 ,max = 80)])
+    remember = BooleanField('remember me')
+
+class RegisterForm(FlaskForm):
+    email = StringField('Email', validators=[InputRequired(), Length(min = 4, max = 20)])
+    username = StringField('Username', validators=[InputRequired(), Length(min = 4, max = 20)])
+    password = PasswordField('Password', validators=[InputRequired(), Length(min = 8 ,max = 80)])
+   
 
 @app.route('/')
 def index():
@@ -14,8 +34,23 @@ def index():
 
 @app.route('/login')
 def login():
-    return render_template('login.html')
+    form = LoginForm()
+
+
+    return render_template('login.html',form = form)
+
+
+@app.route('/signup')
+def signup():
+    form = RegisterForm()
+    return render_template('signup.html',form = form)
+
+
+@app.route('/success')
+def success():
+    return render_template('success.html')
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.debug = True
+    app.run()
 

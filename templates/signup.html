@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block body %}
+{% import "bootstrap/wtf.html" as wtf %}
+<section class="right-section">
+    
+    <div id="right-form" class="form form-hide">
+        <h1>Signup</h1>
+        <form action="/signup" method="post">
+            {{ form.hidden_tag() }}
+            {{ wtf.form_field(form.email) }}
+            {{ wtf.form_field(form.username) }}
+            {{ wtf.form_field(form.password) }}
+            <input type="submit" name="signup-btn" class="btn" value="Signup">
+        </form>
+        <div class="con">
+        <a href="/login"class="Forgot" style="text-align: right;">Login</a>
+    </div>
+    </div>
+</section>
+{% endblock %}
