@@ -15,7 +15,6 @@ Bootstrap(app)
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[InputRequired(), Length(min = 4, max = 20)])
     password = PasswordField('Password', validators=[InputRequired(), Length(min = 8 ,max = 80)])
-    remember = BooleanField('remember me')
 
 class RegisterForm(FlaskForm):
     email = StringField('Email', validators=[InputRequired(), Length(min = 4, max = 20)])
@@ -39,6 +38,8 @@ def login():
 @app.route('/signup')
 def signup():
     form = RegisterForm()
+
+    
     return render_template('signup.html',form = form)
 
 
