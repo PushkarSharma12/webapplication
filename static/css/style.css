@@ -448,8 +448,7 @@ p{
         .features-2{
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            align-content: center;
             padding-bottom: 10%;
             width: 100%;
             margin-left: 0%;
@@ -471,7 +470,8 @@ p{
             
         }
         .features-2 a{
-            margin-left: 38%;
+            align-self: center;
+            margin-left: 35%;
         }
         .features-2 .images{
             position: relative;
@@ -492,6 +492,8 @@ p{
             color: #585858;
         }
         .applink img{
+            margin-left: 0;
+            margin-right: 20px;
             height: 60px;
         }
         .form input {
