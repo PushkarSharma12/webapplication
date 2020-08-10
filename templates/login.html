@@ -5,7 +5,7 @@
     
     <div id="left-form" class="form">
         <h1>Login</h1>
-        <form id="formLogin" action="/logincheck" method="POST">
+        <form id="formLogin" action="/login" method="POST">
             {{ form.hidden_tag() }}
             {{ wtf.form_field(form.username) }}
             {{ wtf.form_field(form.password) }}

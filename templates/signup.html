@@ -6,8 +6,8 @@
         <h1>Signup</h1>
         <form action="/signup" method="post">
             {{ form.hidden_tag() }}
-            {{ wtf.form_field(form.email) }}
             {{ wtf.form_field(form.username) }}
+            {{ wtf.form_field(form.email) }}
             {{ wtf.form_field(form.password) }}
             <input type="submit" name="signup-btn" class="btn" value="Signup">
         </form>
