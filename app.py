@@ -88,12 +88,10 @@ def signup():
 def success():
     return render_template('success.html')
 
-
 @app.route('/dashboard', methods = ['POST','GET'])
 def dashboard():
     return render_template("dashboard.html")
 
-
 if __name__ == "__main__":
-    app.run(debug = True ,host='0.0.0.0', port=port)
+    app.run(debug = True)
 
