@@ -90,7 +90,7 @@ def success():
     return render_template('success.html')
 
 
-@app.route('/dashboard')
+@app.route('/dashboard', methods = ['POST','GET'])
 def dashboard():
     return render_template("dashboard.html")
 

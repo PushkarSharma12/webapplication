@@ -403,9 +403,9 @@ input[type='checkbox'] {
 }
 /*for mobile*/
 @media only screen and (max-width: 568px) {
-    .Introduction{
-        background-image: none;
-    }
+   .features-2 .content a{
+        margin-left: 15%;
+   }
 }
     @media only screen and (max-width: 768px) {
         .features-2 .images{
