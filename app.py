@@ -15,6 +15,7 @@ import os
 import time
 
 app = Flask(__name__)
+port = int(os.environ.get('PORT', 5000)) 
 app.secret_key='os.environ.get()'
 app.config['WTF_CSRF_SECRET_KEY'] = "b'f\xfa\x8b{X\x8b\x9eM\x83l\x19\xad\x84\x08\xaa"
 app.config['SQLALCHEMY_DATABASE_URI'] ='postgres://pfflhnsoygfrwm:dbfb95b73b9e7f02027b474fd3255ab63ad6fe3c483194637e53b6ae0be90322@ec2-52-202-66-191.compute-1.amazonaws.com:5432/d7km9rfhq4orfd'
@@ -94,5 +95,5 @@ def dashboard():
 
 
 if __name__ == "__main__":
-    app.run(debug = True)
+    app.run(debug = True ,host='0.0.0.0', port=port)
 
