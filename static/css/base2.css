@@ -1,0 +1,253 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,800");
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+          -webkit-font-smoothing: antialiased;
+}
+
+body {
+
+  overflow-x: hidden;
+}
+
+
+
+
+html{
+
+    -webkit-font-smoothing: antialiased;
+
+}
+
+.bod {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI';
+    font-size: 25px;
+ 
+
+}
+p{
+    font-size: 14px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+}
+
+  label {
+    color: #666;
+    font-size: .875rem;
+  }
+
+.fade-in-element {
+    animation-name: fade-in-element;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+
+#topnav {
+    display: flex;
+    flex-direction: row;
+    height: 8vh;
+    width: 100%;
+    justify-content: space-around;
+    background-color: rgb(253, 217, 98);
+    font-family: 'Segoe UI';
+}
+#topnav li {
+    list-style: none;
+    margin: 0px;
+}
+.nav-links{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 30%;
+}
+.nav-links a {   
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
+    font-family: 'Segoe UI';
+
+}
+
+#imageLogo{
+    
+    width:  100px;
+    height: 70px;
+
+}
+
+.burger{
+    position: relative;
+    float: right;
+    display: flex;
+    flex-direction: column;
+    margin-top:15px ;
+    left:0px;
+    cursor: pointer;
+    margin-left: -20%;
+    
+}
+.burger div{
+    width: 30px;
+    height: 3px;
+    background-color: black;
+    margin: 4px;
+    transition : all 0.3s ease;
+    
+}
+#mname {
+    text-align: center;
+    padding-top: 0px;
+    font-size: 35px;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing: 3px;
+}
+.nav-links{
+    /* remove */
+    z-index: 1000000;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 0px;
+    margin-top: 8vh;
+    height: 100%;
+    width: 20%;
+    padding: 0px;
+    top: 0vh;
+    background-color: rgb(255, 216, 89, 0.9);
+   
+    align-items: center;
+    transform: translateX(-100%);
+    transition: transform 0.5s ease-in;
+    
+}
+
+.nav-links li {
+    opacity: 0;
+}
+h1{
+    vertical-align: middle;
+     text-align: center;
+     color: #666;
+}
+
+.con{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: right;
+    text-align: right;
+}
+
+@-webkit-keyframes fadeInAnimation {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+@keyframes fade-in-element {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+@keyframes change {
+    from{
+        background-color: aliceblue;
+    }
+    to{
+        background-color: rgb(37, 142, 233)
+    }
+}
+@media only screen and (max-width:1280px) {
+    
+    .features p{
+        width: 80%;
+    }
+}
+/*for mobile*/
+@media only screen and (max-width: 568px) {
+    .Introduction{
+        background-image: none;
+    }
+}
+    @media only screen and (max-width: 768px) {
+     
+        body {
+            margin: 0px;
+            padding: 0px;
+            font-family: 'Segoe UI';
+            font-size: 14px;
+            overflow-x: hidden;
+            
+        }
+      
+    
+    #topnav {
+        display: flex;
+        flex-direction: row;
+        height: 8vh;
+        
+    }
+    #imageLogo{
+        position: static;
+        
+    }
+   
+
+
+}
+@keyframes fade-in-element {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+    
+}
+.nav-active{
+    transform: translateX(0%);
+    
+}
+.bod-change{
+    background: rgb(235, 235, 235);
+}
+@keyframes navLinkFade{
+    
+    from{
+        opacity: 0;
+        transform: translateX(50px);
+        
+    }to{
+        opacity: 1;
+        transform: translateX(0px);
+        
+    }
+}
+.toggle .line1{
+    transform: rotate(-45deg)translate(-5px,10px);
+}
+.toggle .line2{
+    opacity:0;
+}
+.toggle .line3{
+    transform: rotate(45deg)translate(-5px,-10px);
+}
+@media only screen and (max-width: 600px) {
+   
+}

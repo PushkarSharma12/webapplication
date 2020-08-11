@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <link rel="stylesheet" type="text/css" href="static/css/base2.css?ver=1.12">
+    {% block head %}{% endblock %}
+    <style>
+        p{
+            font-size:14px;
+            font-family : 'Segoe UI';
+            color : red;
+        }
+        .forgot{
+            display: flex;
+            flex-direction: row;
+            align-items: flex-end;
+        }
+        .Forgot{
+            font-size: 13px;
+            font-family : 'Segoe UI';
+            text-decoration: none;
+            margin-top: 15px;
+            color: black;
+            
+        }
+    </style>
+
+</head>
+<body class="bod">
+  
+<header class="top fade-in-element" id = "topnav" >
+    <div class = "burger">
+        <div class = "line1"></div>
+        <div class = "line2"></div>
+        <div class = "line3"></div>
+        
+    </div>
+    <div class ="logo">
+    <a href="/"><img src="{{ url_for('static', filename='images/Logo.png') }}" alt="" class= "Logo-Image" id = "imageLogo"></a>
+    </div>
+    <ul class = "nav-links">
+        <li><a href='/'>Home</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="/signup" id = "register">Sign Up</a>
+        
+        </ul>
+       
+    </header>
+   
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script>
+        
+    </script>
+{% block body %}
+
+{% endblock %}
+
+</body>
+</html>

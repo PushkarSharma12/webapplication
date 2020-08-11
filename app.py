@@ -62,6 +62,7 @@ def login():
         user_object = User.query.filter_by(username=login_form.username.data).first()
         login_user(user_object)
         return redirect(url_for('dashboard'))
+        
 
     return render_template("login.html", form=login_form)
 

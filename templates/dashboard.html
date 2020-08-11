@@ -1,5 +1,10 @@
-{% extends 'base.html' %}
+{% extends 'base_logged.html' %}
 {% block body %}
-<h1 style="vertical-align: middle; text-align: center; color: #6666;">Hey welcome to you account Bro !</h1>
+<h1>Hey welcome to you account Bro !</h1>
+<form action="/dashboard" method="post">
+    <textarea name="text"></textarea>
+    <input type="submit">
+</form>
 <a  style="vertical-align: middle; text-align: center; color: #6666; text-decoration: none;" href="/logout">Login Out</a>
+
 {% endblock %}
