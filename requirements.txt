@@ -44,7 +44,6 @@ PySlowLoris==0.1.30
 python-dateutil==1.5
 pytz==2020.1
 requests==2.18.4
-rm==0.0.0
 selenium==3.141.0
 six==1.14.0
 SQLAlchemy==1.3.18
