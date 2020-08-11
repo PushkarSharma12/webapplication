@@ -1,6 +1,6 @@
 from flask import Flask,render_template, url_for, request, flash
 from flask import redirect
-from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import *
 from datetime import datetime
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
@@ -17,7 +17,6 @@ import time
 app = Flask(__name__)
 app.secret_key='os.environ.get()'
 app.config['WTF_CSRF_SECRET_KEY'] = "b'f\xfa\x8b{X\x8b\x9eM\x83l\x19\xad\x84\x08\xaa"
-
 app.config['SQLALCHEMY_DATABASE_URI'] ='postgres://pfflhnsoygfrwm:dbfb95b73b9e7f02027b474fd3255ab63ad6fe3c483194637e53b6ae0be90322@ec2-52-202-66-191.compute-1.amazonaws.com:5432/d7km9rfhq4orfd'
 
 db = SQLAlchemy(app)
@@ -34,19 +33,19 @@ Bootstrap(app)
 class RegistrationForm(FlaskForm):
     """ Registration form"""
 
-    username = StringField('username', validators=[InputRequired(message="Username required"), Length(min=4, max=25, message="Username must be between 4 and 25 characters")])
+    username = StringField('Username', validators=[InputRequired(message="Username required"), Length(min=4, max=25, message="Username must be between 4 and 25 characters")])
     password = PasswordField('Password', validators=[InputRequired(message="Password required")])
     email = StringField('Email', validators=[InputRequired(message="Email Required"),Email('Email should be valid!')])
 
-    def validate_email(self, email):
-        user_object = User.query.filter_by(username=email.data).first()
-        if user_object:
-            raise ValidationError("Email already exists.")
     def validate_username(self, username):
         user_object = User.query.filter_by(username=username.data).first()
         if user_object:
             raise ValidationError("Username already exists. Select a different username.")
-
+    
+    def validate_email(self, email):
+        user_object = User.query.filter_by(username=email.data).first()
+        if user_object:
+            raise ValidationError("Email already exists.")
 
 @app.route('/')
 def index():
@@ -76,11 +75,6 @@ def signup():
         Email = form.email.data
         password = form.password.data
         hashed_pwd = pbkdf2_sha256.hash(password)
-
-        email_object = User.query.filter_by(email=Email).first()
-        if email_object:
-            return 'Email already registered!'
-
         user = User(username=username, email = Email, passworrd = hashed_pwd )
         db.session.add(user)
         db.session.commit()
