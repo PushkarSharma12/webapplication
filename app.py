@@ -6,12 +6,11 @@ from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from flask_wtf.csrf import CSRFProtect, CSRFError
 from wtforms import StringField, PasswordField, BooleanField
-from wtforms.validators import InputRequired, Email, Length 
+from wtforms.validators import InputRequired, Email, Length, ValidationError
 from models import *
 from wtforms_fields import *
 from passlib.hash import pbkdf2_sha256
 from flask_login import LoginManager, login_user, current_user, logout_user
-
 import os
 import time
 
@@ -42,7 +41,7 @@ class RegistrationForm(FlaskForm):
     def validate_email(self, email):
         user_object = User.query.filter_by(username=email.data).first()
         if user_object:
-            raise ValidationError("Username already exists. Select a different username.")
+            raise ValidationError("Email already exists.")
     def validate_username(self, username):
         user_object = User.query.filter_by(username=username.data).first()
         if user_object:
