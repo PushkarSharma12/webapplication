@@ -1,12 +1,12 @@
 const navSlide = ()=>{
     const burger = document.querySelector('.burger');
     const nav = document.querySelector('.nav-links');
-    const bod = document.querySelector('.bod')
+   
     const navLinks = document.querySelectorAll('.nav-links li');
     
     burger.addEventListener('click',() => {
         //togle link
-        bod.classList.toggle('bod-change');
+        
         nav.classList.toggle('nav-active');
         
         //Animate links
@@ -21,14 +21,10 @@ const navSlide = ()=>{
         
         //burger Animation
         burger.classList.toggle('toggle');
-        body.classList.toggle('change');
+        
     });
     
     
 
 }
-function changeColor(color){
-    document.body.style.background = color;
-}
-
 navSlide();
