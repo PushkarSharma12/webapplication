@@ -6,7 +6,7 @@ const navSlide = ()=>{
     
     burger.addEventListener('click',() => {
         //togle link
-        bod.classList.toggle('bod-change');
+
         nav.classList.toggle('nav-active');
         
         //Animate links
@@ -27,8 +27,6 @@ const navSlide = ()=>{
     
 
 }
-function changeColor(color){
-    document.body.style.background = color;
-}
+
 
 navSlide();
