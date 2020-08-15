@@ -64,8 +64,8 @@ p{
 .nav-links{
     display: flex;
     align-items: center;
-    justify-content: space-around;
-    width: 30%;
+    justify-content: flex-start;
+    width: 50%;
 }
 .nav-links a {   
     letter-spacing: 4px;
@@ -73,6 +73,7 @@ p{
     text-decoration: none;
     color: black;
     font-size: 14px;
+    margin-top: 20px;
     font-family: 'Segoe UI';
 
 }
@@ -130,7 +131,58 @@ p{
     transition: transform 0.5s ease-in;
     
 }
-
+.main_cont{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    min-width: 90%;
+    min-height: 50%;
+}
+.contet_diary{
+    min-width: 100%;
+    min-height: 400px;
+    text-align: left;
+    border:2px solid #f1a566;
+}
+.today{
+    background-color: #ffffff;
+    min-width: 70vw;
+    min-height: 30vh;
+    border: 0.1px solid #f1a566;
+}
+.heading{
+    background-color: #ffffff;
+    min-width: 40vw;
+    border: 0.1px solid #f1a566;
+    margin-bottom: 20px;
+    font-size: 18px; 
+}
+.add{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: sans-serif;
+    font-size: 18px; 
+}
+.today:active{
+    border: none;
+}
+.btn{
+    font-family: sans-serif;
+    font-size: 16px;
+    background-color: #f1a566;
+    border: 2px solid #f1a566;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-radius: 20px;
+}
+.btn:hover{
+    background-color: #f0b17d;
+}
 .nav-links li {
     opacity: 0;
 }
@@ -148,15 +200,6 @@ h1{
     text-align: right;
 }
 
-@-webkit-keyframes fadeInAnimation {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-  
 @keyframes fade-in-element {
     from {
         opacity: 0;
@@ -224,6 +267,7 @@ h1{
     transform: translateX(0%);
     
 }
+
 .bod-change{
     background: rgb(235, 235, 235);
 }

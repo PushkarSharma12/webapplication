@@ -6,9 +6,53 @@
     -webkit-font-smoothing: antialiased;
 }
 html{
-
+    
+    scroll-behavior: smooth;
+    
     -webkit-font-smoothing: antialiased;
 }
+footer{
+    background-color: rgb(255, 216, 89);
+    height: 20%;
+    min-width: 100%;
+    width: 100%;
+}
+.foot {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    margin: 0;
+    margin-left: 0vh;
+    width: 100%;
+    
+  }
+  
+  .foot__card {
+    
+    width: 120%;
+  }
+  
+  .foot__card h4 {
+      text-align: center;
+    font-weight: bolder;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: var(--bg);
+    font-size: 20px;
+  }
+  
+  .foot__card p {
+      text-align: center;
+    font-size: 90%;
+    font-weight: bold;
+    margin-top: 0px;
+    color: #474747;
+  }
+  
 body {
     margin: 0;
     display: flex;

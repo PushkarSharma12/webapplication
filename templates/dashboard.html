@@ -1,10 +1,20 @@
 {% extends 'base_logged.html' %}
+{% block content%}
+{% for row in diary_content %}
+{% if row.topic|length %}{% set another = row.date %}{% endif %}
+    <a href="/topic/{{row.username}}/{{ row.id_per_user }}"> {{ another }}</a>
+{% endfor %}
+
+<a  style="vertical-align: middle; text-align: center; color: rgb(72, 72, 72); text-decoration: none;" href="/topic/{{ username}}/all">View All Pages</a>
+<a  style="vertical-align: middle; text-align: center; color: rgb(72, 72, 72); text-decoration: none;" href="/logout">Login Out</a>
+
+{% endblock %}
 {% block body %}
-<h1>Hey welcome to you account Bro !</h1>
-<form action="/dashboard" method="post">
-    <textarea name="text"></textarea>
-    <input type="submit">
+<h3 style="vertical-align: middle; text-align: center; color: rgb(74, 74, 74); text-decoration: none;">Hey welcome to you account </h3>
+<form action="/submitDiary" method="post" class="add">
+    <input name = "topic" type="text" class="heading" placeholder="Todays Topic">
+    <textarea name="text" class="today" placeholder="Write todays story....."></textarea><br>
+    <input type="submit" class="btn">
 </form>
-<a  style="vertical-align: middle; text-align: center; color: #6666; text-decoration: none;" href="/logout">Login Out</a>
 
 {% endblock %}

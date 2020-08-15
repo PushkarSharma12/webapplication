@@ -2,6 +2,12 @@
 
 {% block head %}
 <title>SecretDiary</title>
+<style>
+    p::selection{
+        color: grey;
+        background-color: rgb(247, 233, 189);
+    }
+</style>
 {% endblock %}
 
 {% block body %}
@@ -39,5 +45,45 @@
         </p>
             <a href="/login">Get Started</a></div>
    
+</div>
+ <div id = "about" class="features">
+
+     <h1>About</h1>
+    <p>
+        This is a website for your benefits and sharing your daily emotions and keeping it private but still having it near you you can write your hearts content in our diary and we will keep it safe and secure. Alway read what you felt or what you did last month, last week or even last year. Just keep you kindness in your personal Secret Diary.
+    </p>
+    <a href="/login">Start Your Diary</a></div>
+ </div>  
+<footer id="contact">
+<div class="foot">
+    <div class="foot__card">
+        <h4>Social Media</h4>
+          <p><a>  Youtube </a><br>
+          <a>  Twitter </a><br>
+          <a>  Instagram </a><br>
+          <a>  FaceBook </a><br>
+          <a>  LinkedIN </a><br>
+        </p>
+    </div>
+    <div class="foot__card">
+        <h4>Quick Links</h4>
+        <p> Contact <br>
+        BGSP <br>
+        BGSP <br>
+        BGSP <br>
+        BGSP</p>
+    </div>
+    <div class="foot__card">
+        <h4>Contact Us</h4>
+        <p>  Contact <br>
+            BGSP <br>
+           BGSP <br>
+           BGSP <br>
+           BGSP</p>
+    </div>
+</div>
+</footer>
+<div class="info" style="background:rgb(52, 52, 52);width: 100%;height: 20px; display: flex;flex-direction: row;justify-content: center;">
+    <p style="color: white;text-align: center;margin-top: 0px;">Secret Diaries created by Pushkar Sharma</p>
 </div>
 {% endblock %}

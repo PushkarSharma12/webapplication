@@ -1,0 +1,23 @@
+{% extends 'base_logged.html' %}
+{% block content%}
+{% set vars = {'username': ''} %}
+{% for data in diary %}
+    {% set user = data.username%}
+    <a href="/topic/{{data.username}}/{{ data.id_per_user }}"> {{ data.date }}</a>
+
+
+{%endfor%}
+<a  style="vertical-align: middle; text-align: center; color: rgb(72, 72, 72); text-decoration: none;" href="/topic/{{ username}}/all">View All Pages</a>
+<a  style="vertical-align: middle; text-align: center; color: rgb(72, 72, 72); text-decoration: none;" href="/logout">Login Out</a>
+
+{% endblock %}
+{% block body %}
+<div class="main_cont" >
+{% for row in diary %}
+    <h3 class="topic_diary" style="vertical-align: middle; text-align: center; color: rgb(72, 72, 72); text-decoration: none; font-size :35px ;">{{ row.topic }}</h3>
+    <p class="contet_diary" style="vertical-align: middle;  color: rgb(72, 72, 72); text-decoration: none; font-size :24px ;"> {{ row.content }}</p>
+{% endfor %}
+</div>
+<a  style="vertical-align: middle; text-align: center; color: rgb(72, 72, 72); text-decoration: none;" href="/dashboard">Go to today</a>
+
+{% endblock %}
