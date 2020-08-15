@@ -10,7 +10,7 @@
 
 {% endblock %}
 {% block body %}
-<h3 style="vertical-align: middle; text-align: center; color: rgb(74, 74, 74); text-decoration: none;">Hey welcome to you account </h3>
+<h3 style="vertical-align: middle; text-align: center; color: rgb(74, 74, 74); text-decoration: none;">{{ username}} Your Diary</h3>
 <form action="/submitDiary" method="post" class="add">
     <input name = "topic" type="text" class="heading" placeholder="Todays Topic">
     <textarea name="text" class="today" placeholder="Write todays story....."></textarea><br>
