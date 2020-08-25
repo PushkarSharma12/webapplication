@@ -1,12 +1,11 @@
 {% extends 'base_logged.html' %}
 {% block content%}
 {% for row in diary_content %}
-{% if row.topic|length %}{% set another = row.date %}{% endif %}
-    <a href="/topic/{{row.username}}/{{ row.id_per_user }}"> {{ another }}</a>
+<a href="/topic/{{username}}/{{ row.tweet_id }}"> {{ row.topic[0:12] }}</a>
 {% endfor %}
 
 <a  style="vertical-align: middle; text-align: center; color: rgb(72, 72, 72); text-decoration: none;" href="/topic/{{ username}}/all">View All Pages</a>
-<a  style="vertical-align: middle; text-align: center; color: rgb(72, 72, 72); text-decoration: none;" href="/chat">Chat</a>
+<a  style="vertical-align: middle; text-align: center; color: #484848; text-decoration: none;" href="/chat">Chat</a>
 
 <a  style="vertical-align: middle; text-align: center; color: rgb(72, 72, 72); text-decoration: none;" href="/logout">Login Out</a>
 

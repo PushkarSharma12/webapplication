@@ -1,0 +1,37 @@
+{
+    "compile-hero.disable-compile-files-on-did-save-code": false,
+    "sqltools.connections": [
+        {
+            "askForPassword": true,
+            "database": "d7km9rfhq4orfd",
+            "driver": "PostgreSQL",
+            "name": "DATABASE_URL",
+            "port": 5432,
+            "previewLimit": 50,
+            "server": "ec2-52-202-66-191.compute-1.amazonaws.com",
+            "username": "pfflhnsoygfrwm"
+        },
+        {
+            "askForPassword": true,
+            "connectionTimeout": 3300,
+            "database": "d7km9rfhq4orfd",
+            "driver": "PostgreSQL",
+            "name": "DATABASE_URL",
+            "port": 5432,
+            "previewLimit": 50,
+            "server": "ec2-52-202-66-191.compute-1.amazonaws.com",
+            "username": "pfflhnsoygfrwm"
+        },
+        {
+            "connectionTimeout": 3000,
+            "database": "d7km9rfhq4orfd",
+            "driver": "PostgreSQL",
+            "name": "DATABASE_URL",
+            "password": "dbfb95b73b9e7f02027b474fd3255ab63ad6fe3c483194637e53b6ae0be90322",
+            "port": 5432,
+            "previewLimit": 50,
+            "server": "ec2-52-202-66-191.compute-1.amazonaws.com",
+            "username": "pfflhnsoygfrwm"
+        }
+    ]
+}

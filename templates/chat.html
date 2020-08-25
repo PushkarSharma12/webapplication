@@ -1,9 +1,11 @@
 {% extends 'base_logged.html' %}
 {% import "bootstrap/wtf.html" as wtf %}
+{% block head%}
+
+{% endblock%}
 {% block content%}
 {% for data in diary %}
-    {% set user = data.username%}
-    <a href="/topic/{{data.username}}/{{ data.id_per_user }}"> {{ data.date }}</a>
+    <a href="/topic/{{data.username}}/{{ data.id_per_user }}"> {{ data.topic[0:12] }}</a>
 
 
 {%endfor%}
@@ -15,6 +17,7 @@
 
 {% endblock %}
 {% block body %}
+
 <main>
 <div class="friend">
     <form action="/search/" class="search" method = 'post'>
@@ -39,7 +42,19 @@
             {{msg}}
         </h2>
         </div>
-        <div class="all_msg">
+        <div class="all_msg" id = "messages">
+            
+            <div class="recieved" style="display: flex; flex-direction: column; align-items: flex-start;">
+                {% for messages in recieved%}
+                <p style= " margin-left:10px;border-radius: 5px; border:2px solid rgb(233, 233, 233);background-color: rgb(187, 187, 187); min-width: 25%;max-width: 70%; font-size: 16px; vertical-align: middle; text-align: left; color: rgb(98, 98, 98); text-decoration: none;font-weight: bold;">{{ messages.body }}</p><br>
+                {% endfor %}
+            </div>
+            <div class="sent" style="display: flex; flex-direction: column; align-items: flex-end;">
+                {% for messages in sent %}
+                <p style="margin-right:10px;border-radius: 5px; border:2px solid rgb(118, 230, 149);background-color: rgb(134, 248, 142); min-width: 25%;max-width: 70%;font-size: 16px; vertical-align: middle; text-align: left; color: rgb(81, 81, 81); text-decoration: none;font-weight: bold;">{{ messages.body }}</p><br>
+                {% endfor %}
+            </div>
+            
         </div>
         <div class="form_msg">
         <form action="/chat/sendmessage/{{msg}}" class="message" method="POST">
