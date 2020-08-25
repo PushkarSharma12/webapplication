@@ -11,8 +11,6 @@ body {
 }
 
 
-
-
 html{
 
     -webkit-font-smoothing: antialiased;
@@ -62,6 +60,7 @@ p{
     margin: 0px;
 }
 .nav-links{
+    z-index:50;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -70,12 +69,14 @@ p{
 .nav-links a {   
     letter-spacing: 4px;
     text-transform: uppercase;
+    display: block;
+    z-index:50;
     text-decoration: none;
     color: black;
     font-size: 14px;
     margin-top: 20px;
     font-family: 'Segoe UI';
-
+    
 }
 
 #imageLogo{
@@ -114,7 +115,7 @@ p{
 }
 .nav-links{
     /* remove */
-    z-index: 1000000;
+    z-index:50;
     display: flex;
     flex-direction: column;
     position: fixed;
@@ -151,6 +152,146 @@ p{
     min-height: 30vh;
     border: 0.1px solid #f1a566;
 }
+main{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    width: 100%;
+}
+
+.friend{
+    z-index: -1;
+    width: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-height: 100%;
+    height: 100%;
+    border: 1px solid #f0b17d;
+    position: absolute;
+    top: 8vh;
+}
+.chat_main{
+    margin-left:15% ;
+    height: 100%;
+    width: 85%;
+    min-height:100%;
+    top: 8vh;
+    position: fixed;
+    border: 1px solid #f1a566;
+}
+.search{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top:40px ;
+    margin-bottom: 40px;
+}
+
+
+.search input[type='submit']:hover{
+    cursor: pointer;
+}
+.search input{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #f0b17d;
+    font-family: sans-serif;
+    border-radius: 30px;
+
+    border-radius: 30px;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    
+    
+}
+.search input[type='submit']{
+    margin-left: 1vw;
+    background-color: #f1a566;
+    padding-left: 20px;
+    padding-right: 2vw;
+    border-radius: 30px;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    min-width: 50px;
+    max-width: 30%;
+}
+
+.message{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top:40px ;
+    background-color: rgb(253, 217, 98);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    align-self: flex-start;
+}
+.form_msg{
+    margin: 0px;
+    margin-top: 77vh;
+}
+
+.message input[type='submit']:hover{
+    cursor: pointer;
+}
+.message input{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #f0b17d;
+    font-family: sans-serif;
+    padding-right: 20%;
+    border-radius: 30px;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    
+}
+.message input[type='submit']{
+    margin-left: 1vw;
+    background-color: #f1a566;
+    padding-left: 20px;
+    padding-right: 2vw;
+    border-radius: 30px;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    min-width: 50px;
+    max-width: 30%;
+}
+
+
+.list{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 30%;
+    justify-content: space-around;
+}
+.names{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: left;
+    width: 80%;
+}
+.link{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: left;
+    width: 150%;
+}
+.list p{
+    text-align: left;
+}
+.friend img{
+    margin-bottom: -15px;
+}
+.friend a{
+    text-decoration:none;
+    color: #f0b17d;
+}
 .heading{
     background-color: #ffffff;
     min-width: 40vw;
@@ -185,6 +326,7 @@ p{
 }
 .nav-links li {
     opacity: 0;
+    z-index:50;
 }
 h1{
     vertical-align: middle;
@@ -216,11 +358,20 @@ h1{
         background-color: rgb(37, 142, 233)
     }
 }
-@media only screen and (max-width:1280px) {
+@media only screen and (max-width:1020px) {
     
     .features p{
         width: 80%;
     }
+    .friend{
+
+        width: 40%;
+    }
+    .chat_main{
+        margin-left:40% ;
+        width: 60%;
+    }
+    
 }
 /*for mobile*/
 @media only screen and (max-width: 568px) {
@@ -238,8 +389,15 @@ h1{
             overflow-x: hidden;
             
         }
-      
-    
+        .friend{
+
+            width: 40%;
+        }
+        .chat_main{
+            margin-left:40% ;
+            width: 60%;
+        }
+        
     #topnav {
         display: flex;
         flex-direction: row;

@@ -41,7 +41,7 @@
     <div class ="logo">
     <a href="/"><img src="{{ url_for('static', filename='images/Logo.png') }}" alt="" class= "Logo-Image" id = "imageLogo"></a>
     </div>
-    <ul class = "nav-links">
+    <ul class = "nav-links" id = "nav-scroll">
        {% block content%}
        {% endblock %}
         </ul>
@@ -52,6 +52,27 @@
     <script>
         
     </script>
+      <script>
+        window.onscroll = function() {
+    var currentScrollPos = window.pageYOffset;
+  
+    // 20 is an arbitrary number here, just to make you think if you need the prevScrollpos variable:
+    if (currentScrollPos > 20) {
+      // I am using 'display' instead of 'top':
+      document.getElementById("nav-scroll").style.display = "none";
+    } else {
+      document.getElementById("nav-scroll").style.display = "flex";
+    }
+  }
+    </script>
+   {% with messages = get_flashed_messages() %}
+   {% if message %}
+   
+       Category: {{ messages[0][0] }}
+       {{ messages[0][1] }}
+  
+   {% endif %}
+  {% endwith %}
 {% block body %}
 
 {% endblock %}

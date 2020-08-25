@@ -1,0 +1,58 @@
+{% extends 'base_logged.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content%}
+{% for data in diary %}
+    {% set user = data.username%}
+    <a href="/topic/{{data.username}}/{{ data.id_per_user }}"> {{ data.date }}</a>
+
+
+{%endfor%}
+<a  style="vertical-align: middle; text-align: center; color: rgb(72, 72, 72); text-decoration: none;" href="/topic/{{ username}}/all">View All Pages</a>
+<a  style="vertical-align: middle; text-align: center; color: rgb(72, 72, 72); text-decoration: none;" href="/chat">Chat</a>
+
+<a  style="vertical-align: middle; text-align: center; color: rgb(72, 72, 72); text-decoration: none;" href="/logout">Login Out</a>
+
+
+{% endblock %}
+{% block body %}
+<main>
+<div class="friend">
+    <form action="/search/" class="search" method = 'post'>
+    <input type="text" name="search" id="search" class="search_box" placeholder="Search">
+   <!--- <input type="submit">-->
+    </form>
+    
+    {% for users in user %}
+    {% if users.username != username %}
+        <a style="margin-left: 20px;"href="/chat/{{users.username}}" >{{users.username}}</a><br>
+    {% else %}
+    {% endif %}
+    {% endfor %}
+    </div>
+<div class="chat_main" >
+    {% if chat%}
+        <div class="profile">
+            <h2 style = "vertical-align: middle; 
+            text-align: center; color: rgb(72, 72, 72); 
+            text-decoration: none;background-color: #f3b078;top: 0px;
+            margin-top: 0px;">
+            {{msg}}
+        </h2>
+        </div>
+        <div class="all_msg">
+        </div>
+        <div class="form_msg">
+        <form action="/chat/sendmessage/{{msg}}" class="message" method="POST">
+            {{ form.hidden_tag() }}
+            {{ wtf.form_field(form.message) }}
+            {{ wtf.form_field(form.submit) }}
+        
+    
+        </form>
+    </div>
+    {% endif %}
+
+</div>
+</main>
+
+{% endblock %}

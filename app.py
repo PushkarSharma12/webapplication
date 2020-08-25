@@ -8,20 +8,36 @@ from flask_wtf import FlaskForm
 from flask_wtf.csrf import CSRFProtect, CSRFError
 from wtforms import StringField, PasswordField, BooleanField
 from wtforms.validators import InputRequired, Email, Length, ValidationError
-from models import *
 from wtforms_fields import *
 from passlib.hash import pbkdf2_sha256
 from flask_login import LoginManager,AnonymousUserMixin, login_user, current_user, logout_user, login_required
+from flask_script import Manager
+from flask_migrate import Migrate,MigrateCommand
+from sqlalchemy import Column, Integer, String, ForeignKey, Table
+from sqlalchemy.orm import relationship
+from sqlalchemy.ext.associationproxy import association_proxy
+from models import *
 import os
 import time
 
+from flask_login import UserMixin
 app = Flask(__name__)
 app.secret_key='os.environ.get()'
 app.config['SQLALCHEMY_DATABASE_URI'] ='postgres://pfflhnsoygfrwm:dbfb95b73b9e7f02027b474fd3255ab63ad6fe3c483194637e53b6ae0be90322@ec2-52-202-66-191.compute-1.amazonaws.com:5432/d7km9rfhq4orfd'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+manager = Manager(app)
+
+
+manager.add_command('db', MigrateCommand)
 
 login = LoginManager(app)
 login.init_app(app)
+
+
+
 
 @login.user_loader
 def load_user(id):
@@ -48,6 +64,9 @@ class RegistrationForm(FlaskForm):
 
 @app.route('/')
 def index():
+
+    if current_user.is_authenticated:
+        return redirect("/dashboard")
     return render_template('index.html')
 
 
@@ -90,15 +109,17 @@ def success():
 
 @app.route('/dashboard', methods = ['POST','GET'])
 def dashboard():
-    username = current_user.username
+    username_curr = current_user.username
+    user_id = User.query.filter_by(username = username_curr).first().id
+
     if not current_user.is_authenticated:
         flash('Please Login before accessing this!', 'danger')
         return redirect("/login")
     
 
-    diary_content = Diary.query.filter_by(username = username)
+    diary_content = Diary.query.filter_by(user_id = user_id)
     
-    return render_template("dashboard.html", diary_content = diary_content, username = username)
+    return render_template("dashboard.html", diary_content = diary_content, username = username_curr)
 
 
 @app.route('/logout', methods = ['GET'])
@@ -151,5 +172,95 @@ def all(username):
     else :
         return redirect("/dashboard")
 
+@app.route('/chat', methods = ['GET', 'POST'])
+@login_required
+def chat():
+    username_curr = current_user.username
+    user_id = User.query.filter_by(username = username_curr).first().id
+
+    
+    user = User.query.all()
+    diary = Diary.query.filter_by(user_id = user_id)
+    
+    return render_template("chat.html",diary = diary, username = username_curr,user = user)
+
+
+@app.route('/chat/<username>', methods = ['GET', 'POST'])
+@login_required
+def send_msg(username):
+    form = MessageForm()
+    username_curr = current_user.username
+    user_id = User.query.filter_by(username = username_curr).first().id
+    user = User.query.all()
+    diary = Diary.query.filter_by(user_id = user_id)
+    
+
+
+    return render_template("chat.html",diary = diary, username = username_curr,user = user,chat =1,msg=username,form = form)
+
+
+@app.route('/chat/sendmessage/<recipient>', methods=['GET', 'POST'])
+@login_required
+def send_message(recipient):
+    user = User.query.filter_by(username=recipient).first()
+    form = MessageForm()
+    if form.validate_on_submit():
+        msg = Message(author=current_user, recipient=user,
+                      body=form.message.data)
+        #db.session.add(msg)
+        db.session.commit()
+        return redirect(url_for('chat', username=recipient))
+    return render_template('send_message.html', title=_('Send Message'),form = form,
+                            recipient=recipient)
+
+@app.route('/search', methods=['GET', 'POST'])
+@login_required
+def search():
+    form = SearchForm()
+    username_curr =  current_user.username
+    diary = Diary.query.filter_by(username = username_curr)    
+    return render_template('search.html',form  = form, diary = diary,username = username_curr)
+  
+
+@app.route('/search/<user>', methods=['GET', 'POST'])
+@login_required
+def searchRes(user):
+    
+    form = SearchForm()
+    username = user
+    search = "%{0}%".format(username)
+    result = User.query.filter(User.username.like(search)).all()
+    username_curr =  current_user.username
+    diary = Diary.query.filter_by(username = username_curr)
+    return render_template('search.html',form  = form, result= result, diary = diary,username = username_curr)
+  
+
+@app.route('/add/<username>/<friend_id>')
+@login_required
+def follow_user(username,friend_id):
+    whom_id = friend_id
+    username_curr= current_user.username
+ 
+    who_id = User.query.filter_by(username = username_curr).first().id
+    whom = db.session.query(User).filter_by(id=whom_id).first().username
+    if who_id != whom_id:
+        new_follow = Follower(
+            who_id = who_id,
+            whom_id=whom_id)
+        try:
+            db.session.add(new_follow)
+            db.session.commit()
+            return redirect(url_for('chat'))
+        except IntegrityError:
+            flash('You are already following {}'.format(whom))
+            return redirect(url_for('chat'))
+    else:
+        
+        return redirect(url_for('chat'))
+    
+
 if __name__ == "__main__":
     app.run(debug = True)
+    
+
+    

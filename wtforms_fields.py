@@ -1,9 +1,13 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import InputRequired, Length, EqualTo, ValidationError
+from wtforms import TextAreaField,StringField, PasswordField, SubmitField
+from wtforms.validators import  DataRequired,InputRequired, Length, EqualTo, ValidationError
 from passlib.hash import pbkdf2_sha256
-from models import User
+from models import *
 
+class SearchForm(FlaskForm):
+    search = StringField('Search', [DataRequired()])
+    submit = SubmitField('Search',
+            render_kw={'class': 'btn btn-success btn-block'})
 
 def invalid_credentials(form, field):
     """ Username and password checker """
@@ -29,3 +33,7 @@ class LoginForm(FlaskForm):
     username = StringField('Username', validators=[InputRequired(message="Username required")])
     password = PasswordField('Password', validators=[InputRequired(message="Password required"), invalid_credentials])
 
+class MessageForm(FlaskForm):
+    message = TextAreaField('Message', validators=[
+        DataRequired(), Length(min=0, max=140)])
+    submit = SubmitField('Submit')

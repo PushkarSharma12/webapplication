@@ -1,0 +1,45 @@
+{% extends 'base_logged.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content%}
+{% for data in diary %}
+    {% set user = data.username%}
+    <a href="/topic/{{data.username}}/{{ data.id_per_user }}"> {{ data.date }}</a>
+
+
+{%endfor%}
+<a  style="vertical-align: middle; text-align: center; color: rgb(72, 72, 72); text-decoration: none;" href="/topic/{{ username}}/all">View All Pages</a>
+<a  style="vertical-align: middle; text-align: center; color: rgb(72, 72, 72); text-decoration: none;" href="/chat">Chat</a>
+
+<a  style="vertical-align: middle; text-align: center; color: rgb(72, 72, 72); text-decoration: none;" href="/logout">Login Out</a>
+
+
+{% endblock %}
+{% block body %}
+<h1>Search</h1>
+
+<form action="/search/{{ form.search.data }}" method="post" class="search">
+    {{ form.hidden_tag() }}
+            {{ wtf.form_field(form.search) }}
+            {{ wtf.form_field(form.submit) }}
+
+    
+</form>
+
+{% if result %}
+{% for row in result %}
+    <div class="list">
+        <div class="names">
+            <p style="text-decoration: none; color: rgb(71, 71, 71); font-size: 18px;">{{ row.username }}</p>
+        </div>
+   <div class="link">
+    <a style="padding-left:10px;padding-right:10px;background-color:rgb(127, 206, 0);;text-decoration: none; color: white; font-size: 14px;"href="/add/{{ row.username }}/{{ row.id }}">Add</a>
+   </div>
+   
+</div>
+
+{%endfor%}
+{% endif %}
+
+
+
+{% endblock %}
