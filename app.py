@@ -251,8 +251,9 @@ def signup():
         db.session.add(user)
         db.session.commit()
         flash('Registered Succesfully. Please Login', 'success')
-        return redirect("/success")
-
+        user_object = User.query.filter_by(username=username).first()
+        login_user(user_object)
+        return redirect(url_for('dashboard'))
     return render_template('signup.html',form = form)
 
 
