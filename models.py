@@ -24,6 +24,7 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key =True,autoincrement=True)
     username = db.Column(db.String(25), nullable = False)
     email = db.Column(db.String(85), unique=True, nullable = False)
+    image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     passworrd = db.Column(db.String(500), nullable = False)
     posts = db.relationship('Diary', foreign_keys='Diary.user_id',
                                     backref='poster',lazy='dynamic')
@@ -50,10 +51,11 @@ class User(UserMixin, db.Model):
         last_read_time = self.last_message_read_time or datetime(1900, 1, 1)
         return Message.query.filter_by(recipient=self).filter(
             Message.timestamp > last_read_time).count()
-    def __init__(self, name=None, email=None, password=None):
-        self.name = name
+    def __init__(self, username=None, email=None, passworrd=None, image_file=None):
+        self.username = username
         self.email = email
-        self.password = password
+        self.passworrd = passworrd
+        self.image_file = image_file
 
     def __repr__(self):
         return '<User {0}>'.format(self.name)
@@ -64,13 +66,9 @@ class User(UserMixin, db.Model):
 
         return self.username
 
-    
-    @classmethod
     def is_following(self, user):
-        if user.id is None:
-            return False
-        return self.followed.filter_by(
-            followed_id=user.id).first() is not None
+            return self.followed.filter(
+            Follow.followed_id == user.id).count() > 0
 
     def is_followed_by(self, user):
         if user.id is None:
@@ -79,18 +77,35 @@ class User(UserMixin, db.Model):
             follower_id=user.id).first() is not None
     
     def follow(self, user):
-        if not self.is_following(user):
-            f = Follow(follower=self, followed=user)
-            db.session.add(f)
-            return True
+        if user != self:
+            if not self.is_following(user):
+                f = Follow(follower=self, followed=user)
+                db.session.add(f)
+                db.session.commit()
+                return True
+        else :
+            return False
 
     def unfollow(self, user):
         f = self.followed.filter_by(followed_id=user.id).first()
         if f:
             db.session.delete(f)
+            db.session.commit()
             return True
-   
-    
+    def followed_posts(self):
+        return Diary.query.join(
+            Follow, (Follow.followed_id == Diary.user_id)).filter(
+                Follow.follower_id == self.id).order_by(
+                    Diary.posted.desc())
+    def followerPost(self):
+        return Diary.query.join(
+            Follow, (Follow.followed_id == Diary.user_id)).filter(
+                Follow.follower_id == self.id).order_by(
+                    Diary.posted.desc())
+        #user_tweets = Diary.query.filter_by(user_id = self.id)
+        #followed_users = Diary.query.filter_by(user_id = self.followed.id)
+        #posts = followed_tweets.join(user_tweets)
+        #return posts
 
 class Diary(db.Model):
     """ Diary Model """
@@ -99,7 +114,7 @@ class Diary(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     content =  db.Column(db.String(999),  nullable = False)
     topic =  db.Column(db.String(999),  nullable = False)
-    posted = db.Column(db.DateTime, nullable=False)
+    posted = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     
 
     def __repr__(self):
@@ -109,7 +124,7 @@ class Diary(db.Model):
 
     @classmethod
     def delta_time(cls, tweet_posted):
-        now = datetime.datetime.now()
+        now = datetime.now()
         td = now - tweet_posted
         days = td.days
         hours = td.seconds//3600
@@ -133,9 +148,6 @@ class Message(db.Model):
 
     def __repr__(self):
         return '<Message {}>'.format(self.body)
-    
-   
-
 
 
     
