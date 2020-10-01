@@ -24,6 +24,7 @@ import os
 import time
 from flask_login import UserMixin
 import pusher
+from hashlib import md5
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'seckey'
@@ -45,12 +46,13 @@ class Follow(db.Model):
 
 class User(UserMixin, db.Model):
     """ User Model """
+    
     __tablename__ = 'users'
     __searchable__ = ['username']
     id = db.Column(db.Integer, primary_key =True,autoincrement=True)
     username = db.Column(db.String(25), nullable = False)
     email = db.Column(db.String(85), unique=True, nullable = False)
-    image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
+    image_file = db.Column(db.String(150), nullable=False, default='default.png')
     passworrd = db.Column(db.String(500), nullable = False)
     posts = db.relationship('Diary', foreign_keys='Diary.user_id',
                                     backref='poster',lazy='dynamic')
@@ -132,6 +134,13 @@ class User(UserMixin, db.Model):
         #followed_users = Diary.query.filter_by(user_id = self.followed.id)
         #posts = followed_tweets.join(user_tweets)
         #return posts
+    def avatar(self, size):
+        digest = md5(self.email.lower().encode('utf-8')).hexdigest()
+        avatar = 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
+            digest, size)
+        self.image_file = avatar
+        db.session.commit()
+        return True
 
 class Diary(db.Model):
     """ Diary Model """
@@ -243,10 +252,16 @@ def signup():
         Email = form.email.data
         password = form.password.data
         hashed_pwd = pbkdf2_sha256.hash(password)
-        user = User(username=username, email = Email, passworrd = hashed_pwd )
+        size = 400
+        digest = md5(Email.lower().encode('utf-8')).hexdigest()
+        avatars = 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
+            digest, size)
+        print(avatars)
+        user = User(username=username, email = Email, passworrd = hashed_pwd,image_file = avatars )
         db.session.add(user)
         db.session.commit()
         flash('Registered Succesfully. Please Login', 'success')
+        
         user_object = User.query.filter_by(username=username).first()
         login_user(user_object)
         return redirect(url_for('dashboard'))
@@ -263,7 +278,7 @@ def dashboard():
     username_curr = current_user.username
     tweets = User.followed_posts(current_user)
     user_id = User.query.filter_by(username = username_curr).first().id
-    picture = url_for('static', filename='profile_pics/' + current_user.image_file)
+    picture = current_user.image_file
     if not current_user.is_authenticated:
         flash('Please Login before accessing this!', 'danger')
         return redirect("/login")
@@ -319,7 +334,7 @@ def topic(username,id):
 @login_required
 def all(username):
     user = username
-    picture = url_for('static', filename='profile_pics/' + current_user.image_file)
+    image_file = current_user.image_file
     username_curr =  current_user.id
     if current_user.username == user:
         diary_content = Diary.query.filter_by(user_id = username_curr)
@@ -352,7 +367,7 @@ def account():
     diary_content = Diary.query.filter_by(user_id = current_user.id)
     sorted_diary = diary_content.order_by(Diary.posted.desc())
     following = Follow.query.filter_by(followed_id = current_user.id).count()
-    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+    image_file = current_user.image_file
     return render_template('account.html', title='Account',
                            image_file=image_file,  username = username,
                            no_posts=posts,diary_content=sorted_diary,
@@ -374,7 +389,7 @@ def accountUser(username):
     users = User.query.filter_by().all() 
     sorted_diary = diary_content.order_by(Diary.posted.desc())
     following = Follow.query.filter_by(followed_id = user.id).count()
-    image_file = url_for('static', filename='profile_pics/' + user.image_file)
+    image_file = current_user.image_file
     return render_template('account.html', title='Account',
                            image_file=image_file,  username = username,
                            no_posts=posts,diary_content=sorted_diary,
@@ -392,12 +407,12 @@ def edit():
     if form.validate_on_submit():
         
         if form.picture.data:
-            picture_file = save_picture(form.picture.data)
+            picture_file = form.picture.data
             current_user.image_file = picture_file
         current_user.username = form.username.data
         db.session.commit()
         flash('Your account has been updated!', 'success')
-        return redirect(url_for('account'))
+        return redirect(url_for(f'accountUser'))
     elif request.method == 'GET':
         form.username.data = current_user.username
         
@@ -432,7 +447,7 @@ def search():
     username =  current_user.username
     form = SearchForm()
     users = User.query.filter_by().all() 
-    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+    image_file = current_user.image_file
     return render_template("search.html",users=users,
     image_file=image_file,form=form,
     username = username,current = current_user,
@@ -442,12 +457,15 @@ def search():
 @login_required
 def notification():
     username =  current_user.username
-    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+    image_file = current_user.image_file
     return render_template("notification.html",
     image_file=image_file,
     username = username,current = current_user,
     User=User)
+
+
 if __name__ == "__main__":
     app.run(debug=True)
-    #manager.run()
     
+    #manager.run()
+
