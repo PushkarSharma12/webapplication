@@ -1,21 +1,51 @@
 {% extends 'base_logged.html' %}
+{% block head%}
+<title>Home / SecretDiaries</title>
+{% endblock %}
 {% block content%}
-{% for row in diary_content %}
-<a href="/topic/{{username}}/{{ row.tweet_id }}"> {{ row.topic[0:12] }}</a>
+<!--{% for row in diary_content %}
+<a href="/topic/{{username}}/{{ row.tweet_id }}"> {{ row.topic[0:10] }}</a>
 {% endfor %}
-
-<a  style="vertical-align: middle; text-align: center; color: rgb(72, 72, 72); text-decoration: none;" href="/topic/{{ username}}/all">View All Pages</a>
-<a  style="vertical-align: middle; text-align: center; color: #484848; text-decoration: none;" href="/chat">Chat</a>
-
-<a  style="vertical-align: middle; text-align: center; color: rgb(72, 72, 72); text-decoration: none;" href="/logout">Login Out</a>
-
+-->
+<a href="/account/{{current_user.username}}"><img src="../static/images/profile.png" alt="" style="width: 28px;"></a>
+<a href="/account/{{ username }}" style="margin-top: 50vh;"class="accounts"><img class="rounded-circle account-img" src="{{ image_file }}"></a>
 {% endblock %}
 {% block body %}
-<h3 style="vertical-align: middle; text-align: center; color: rgb(74, 74, 74); text-decoration: none;">{{ username}} Your Diary</h3>
-<form action="/submitDiary" method="post" class="add">
+{% block topnav%}
+<div class="head">
+    <h5>Home</h3>
+</div>
+{% endblock %}
+<div class="post-it">
+
+        <div class="acc-img-dash">
+            <a href="/account" class="usernames"><img class="rounded-circle account-img" src="{{ image_file }}"><!--<p class="username">{{ username }}    </p>--></a></div>
+
+</div>
+<!--<h3 style="vertical-align: middle; text-align: center; color: rgb(74, 74, 74); text-decoration: none;">{{ username}} Your Diary</h3>-->
+<div class="form-post">
+<form action="/submitDiary" method="post" class="add" autocomplete="off">
     <input name = "topic" type="text" class="heading" placeholder="Todays Topic">
     <textarea name="text" class="today" placeholder="Write todays story....."></textarea><br>
     <input type="submit" class="btn">
 </form>
-
+</div>
+{% for tweet in all_tweets %}
+            <div class="posts">
+                <div class="media-left">
+                    <a href="#">
+                        <img src="" alt="" />
+                    </a>
+                </div>
+                <div class="acc-img">
+                    <a href="/account/{{ tweet.poster.username }}" class="usernames"><img class="rounded-circle account-img" src="../static/profile_pics/{{ tweet.poster.image_file }}?v=1.1"><p class="username">{{ tweet.poster.username }}</p></a>
+                </div>
+                <h3 class="topic_diary" style="color: rgb(72, 72, 72); font-size :16px ;">{{ tweet.topic }}</h3>
+                <p class="contet_diary" style="color: rgb(72, 72, 72); font-size :14px ;">{{ tweet.content }}</p>    
+                   
+                    
+                </div>
+            </div>
+            {% endfor %}
+</div>
 {% endblock %}

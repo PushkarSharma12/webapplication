@@ -1,0 +1,102 @@
+{% extends 'base_logged.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block head%}
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+{% endblock%}
+{% block content%}
+{% for data in diary %}
+    <a href="/topic/{{data.username}}/{{ data.id_per_user }}"> {{ data.topic[0:12] }}</a>
+
+
+{%endfor%}
+<a  style="vertical-align: middle; text-align: center; color: rgb(72, 72, 72); text-decoration: none;" href="/topic/{{ username}}/all">View All Pages</a>
+<a  style="vertical-align: middle; text-align: center; color: rgb(72, 72, 72); text-decoration: none;" href="/chat">Chat</a>
+
+<a  style="vertical-align: middle; text-align: center; color: rgb(72, 72, 72); text-decoration: none;" href="/logout" id="logout-btn">Login Out</a>
+
+
+{% endblock %}
+{% block body %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="{{ url_for('static', filename='js/scrool.js') }}"></script>
+<script src="{{ url_for('static', filename='js/socket_io.js') }}"></script>
+
+<main>
+<div class="friend">
+    <form action="/search/" class="search" method = 'post'>
+    <input type="text" name="search" id="search" class="search_box" placeholder="Search">
+   <!--- <input type="submit">-->
+    </form>
+    <div class="friends">
+    {% for users in user %}
+    {% if users.username != username %}
+        <a style="margin-left: 20px;"href="/chat/{{users.username}}" class="select-user" >{{users.username}}</a><br>
+    {% else %}
+    {% endif %}
+    {% endfor %}
+    </div>
+</div>
+<div class="chat_main" >
+    {% if chat%}
+        <!--<script>
+            setTimeout(function(){
+                window.location.reload(1);
+            }, 5000);
+    </script>-->
+        <div class="profile" id = "profile">
+            <h2 id="name" style = "vertical-align: middle; 
+            text-align: center; color: rgb(72, 72, 72); 
+            text-decoration: none;background-color: #f3b078;top: 0px;
+            margin-top: 0px;">
+            {{msg}}<br>
+        </h2><br>
+        </div>
+        <div class="all_msg" id="chat-scroll" noscroll>
+            {% for msg in messages %}
+            <div  class="recieved" style="display: flex; flex-direction: column; align-items: flex-start;" id="recieved">
+            {% if msg.recipient_id == user_id and msg.sender_id == sender_id%}
+            <p style= " margin-left:10px;border-radius: 5px; border:2px solid rgb(233, 233, 233);background-color: rgb(187, 187, 187); min-width: 25%;max-width: 70%; font-size: 16px; vertical-align: middle; text-align: left; color: rgb(98, 98, 98); text-decoration: none;font-weight: bold;">{{ msg.body }}</p><br>
+
+            {% endif %}
+        </div>
+        <div class="sent" style="display: flex; flex-direction: column; align-items: flex-end;" id="sent">
+
+            {% if msg.recipient_id == sender_id and msg.sender_id == user_id%}
+            <p style="margin-right:10px;border-radius: 5px; border:2px solid rgb(118, 230, 149);background-color: rgb(134, 248, 142); min-width: 25%;max-width: 70%;font-size: 16px; vertical-align: middle; text-align: left; color: rgb(81, 81, 81); text-decoration: none;font-weight: bold;">{{ msg.body }}</p><br>
+
+            {% endif %}
+        
+        </div>
+        
+            {% endfor %}
+            <div style="display: flex; flex-direction: column; " class="now-send" id = "now-send">
+
+            </div>
+            
+            <!--<div  class="recieved" style="display: flex; flex-direction: column; align-items: flex-start;" id="recieved">
+                {% for messages in recieved%}
+                <p style= " margin-left:10px;border-radius: 5px; border:2px solid rgb(233, 233, 233);background-color: rgb(187, 187, 187); min-width: 25%;max-width: 70%; font-size: 16px; vertical-align: middle; text-align: left; color: rgb(98, 98, 98); text-decoration: none;font-weight: bold;">{{ messages.body }}</p><br>
+                {% endfor %}
+            </div>
+            <div class="sent" style="display: flex; flex-direction: column; align-items: flex-end;">
+                {% for messages in sent %}
+                <p style="margin-right:10px;border-radius: 5px; border:2px solid rgb(118, 230, 149);background-color: rgb(134, 248, 142); min-width: 25%;max-width: 70%;font-size: 16px; vertical-align: middle; text-align: left; color: rgb(81, 81, 81); text-decoration: none;font-weight: bold;">{{ messages.body }}</p><br>
+                {% endfor %}
+            </div>-->
+            
+        </div>
+        <div class="form_msg">
+        <div id = "message_submit"  class="message" method="POST" style="margin-top: 0px;">
+            {{ form.hidden_tag() }}
+            {{ wtf.form_field(form.message) }}
+            {{ wtf.form_field(form.submit) }}
+        </div>
+    </div>
+    {% endif %}
+<p id="sender_id" style="display: none;">{{ username }}</p>
+</div>
+</main>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+{% endblock %}

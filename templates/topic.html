@@ -1,14 +1,6 @@
 {% extends 'base_logged.html' %}
 {% block content%}
-{% for data in diary_content %}
-    <a href="/topic/{{username}}/{{ data.tweet_id }}"> {{ data.topic[0:12] }}</a>
-
-{%endfor%}
-<a  style="vertical-align: middle; text-align: center; color: rgb(72, 72, 72); text-decoration: none;" href="/topic/{{ username}}/all">View All Pages</a>
-<a  style="vertical-align: middle; text-align: center; color: rgb(72, 72, 72); text-decoration: none;" href="/chat">Chat</a>
-
-<a  style="vertical-align: middle; text-align: center; color: rgb(72, 72, 72); text-decoration: none;" href="/logout">Login Out</a>
-
+<title>Topic / SecretDiaries</title>
 {% endblock %}
 {% block body %}
 <div class="main_cont" >

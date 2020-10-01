@@ -11,15 +11,15 @@ from passlib.hash import pbkdf2_sha256
 from flask_login import LoginManager,AnonymousUserMixin, login_user, current_user, logout_user, login_required
 from flask_script import Manager
 from flask import Flask, render_template
-from flask_socketio import SocketIO,send,emit, join_room
+from flask_socketio import SocketIO,send,emit, join_room, leave_room
 from flask_migrate import Migrate,MigrateCommand
 from sqlalchemy import Column, Integer, String, ForeignKey, Table
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.associationproxy import association_proxy
-from models import *
+import secrets
 from datetime import datetime,date,timedelta
 import json
-
+from PIL import Image
 import os
 import time
 from flask_login import UserMixin
@@ -29,6 +29,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'seckey'
 app.config['SQLALCHEMY_DATABASE_URI'] ='postgres://pfflhnsoygfrwm:dbfb95b73b9e7f02027b474fd3255ab63ad6fe3c483194637e53b6ae0be90322@ec2-52-202-66-191.compute-1.amazonaws.com:5432/d7km9rfhq4orfd'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+app.debug = True
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 manager = Manager(app)
@@ -49,6 +50,7 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key =True,autoincrement=True)
     username = db.Column(db.String(25), nullable = False)
     email = db.Column(db.String(85), unique=True, nullable = False)
+    image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     passworrd = db.Column(db.String(500), nullable = False)
     posts = db.relationship('Diary', foreign_keys='Diary.user_id',
                                     backref='poster',lazy='dynamic')
@@ -75,10 +77,11 @@ class User(UserMixin, db.Model):
         last_read_time = self.last_message_read_time or datetime(1900, 1, 1)
         return Message.query.filter_by(recipient=self).filter(
             Message.timestamp > last_read_time).count()
-    def __init__(self, name=None, email=None, password=None):
-        self.name = name
+    def __init__(self, username=None, email=None, passworrd=None, image_file=None):
+        self.username = username
         self.email = email
-        self.password = password
+        self.passworrd = passworrd
+        self.image_file = image_file
 
     def __repr__(self):
         return '<User {0}>'.format(self.name)
@@ -89,13 +92,9 @@ class User(UserMixin, db.Model):
 
         return self.username
 
-    
-    @classmethod
     def is_following(self, user):
-        if user.id is None:
-            return False
-        return Follow.query.filter_by(
-            followed_id=user.id,follower_id = self.id).first() is not None
+            return self.followed.filter(
+            Follow.followed_id == user.id).count() > 0
 
     def is_followed_by(self, user):
         if user.id is None:
@@ -104,18 +103,35 @@ class User(UserMixin, db.Model):
             follower_id=user.id).first() is not None
     
     def follow(self, user):
-        if not self.is_following(user):
-            f = Follow(follower=self, followed=user)
-            db.session.add(f)
-            return True
+        if user != self:
+            if not self.is_following(user):
+                f = Follow(follower=self, followed=user)
+                db.session.add(f)
+                db.session.commit()
+                return True
+        else :
+            return False
 
     def unfollow(self, user):
         f = self.followed.filter_by(followed_id=user.id).first()
         if f:
             db.session.delete(f)
+            db.session.commit()
             return True
-   
-    
+    def followed_posts(self):
+        return Diary.query.join(
+            Follow, (Follow.followed_id == Diary.user_id)).filter(
+                Follow.follower_id == self.id).order_by(
+                    Diary.posted.desc())
+    def followerPost(self):
+        return Diary.query.join(
+            Follow, (Follow.followed_id == Diary.user_id)).filter(
+                Follow.follower_id == self.id).order_by(
+                    Diary.posted.desc())
+        #user_tweets = Diary.query.filter_by(user_id = self.id)
+        #followed_users = Diary.query.filter_by(user_id = self.followed.id)
+        #posts = followed_tweets.join(user_tweets)
+        #return posts
 
 class Diary(db.Model):
     """ Diary Model """
@@ -124,7 +140,7 @@ class Diary(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     content =  db.Column(db.String(999),  nullable = False)
     topic =  db.Column(db.String(999),  nullable = False)
-    posted = db.Column(db.DateTime, nullable=False)
+    posted = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     
 
     def __repr__(self):
@@ -134,7 +150,7 @@ class Diary(db.Model):
 
     @classmethod
     def delta_time(cls, tweet_posted):
-        now = datetime.datetime.now()
+        now = datetime.now()
         td = now - tweet_posted
         days = td.days
         hours = td.seconds//3600
@@ -225,8 +241,7 @@ def login():
 
 @app.route('/signup', methods=['GET','POST'])
 def signup():
-    form = RegistrationForm()  
-
+    form = RegistrationForm()
     if form.validate_on_submit():
         username = form.username.data
         Email = form.email.data
@@ -247,9 +262,11 @@ def success():
 
 @app.route('/dashboard', methods = ['POST','GET'])
 def dashboard():
+    #print (f"{User..id}")
     username_curr = current_user.username
+    tweets = User.followed_posts(current_user)
     user_id = User.query.filter_by(username = username_curr).first().id
-
+    picture = url_for('static', filename='profile_pics/' + current_user.image_file)
     if not current_user.is_authenticated:
         flash('Please Login before accessing this!', 'danger')
         return redirect("/login")
@@ -257,7 +274,10 @@ def dashboard():
 
     diary_content = Diary.query.filter_by(user_id = user_id)
     
-    return render_template("dashboard.html", diary_content = diary_content, username = username_curr,user_id = user_id)
+    return render_template("dashboard.html", diary_content = diary_content,
+     username = username_curr,
+     user_id = user_id,image_file = picture,
+     all_tweets=User.followerPost(current_user))
 
 
 @app.route('/logout', methods = ['GET'])
@@ -272,10 +292,11 @@ def logout():
 @login_required
 def submitDiary():
     username =  current_user.id
-    today = date.today()
+    picture = url_for('static', filename='profile_pics/' + current_user.image_file)
+    
     topic = request.form['topic']
     content = request.form['text']
-    diary_sub = Diary(poster=current_user, content = content, topic = topic,posted = today )
+    diary_sub = Diary(poster=current_user, content = content, topic = topic )
     db.session.add(diary_sub)
     db.session.commit()
 
@@ -284,6 +305,7 @@ def submitDiary():
 @app.route("/topic/<username>/<id>", methods = ['GET','POST'])
 @login_required
 def topic(username,id):
+    picture = url_for('static', filename='profile_pics/' + current_user.image_file)
     user = username
     diary_id = id
     username_curr =  current_user.username
@@ -292,7 +314,7 @@ def topic(username,id):
         diary = Diary.query.filter_by(tweet_id = diary_id, user_id = user_id)
         diary_content = Diary.query.filter_by(user_id = user_id)
 
-        return render_template("topic.html", diary = diary, username = username_curr,diary_content = diary_content,one =1)
+        return render_template("topic.html", diary = diary, username = username_curr,diary_content = diary_content,one =1,image_file = picture)
     else :
         return redirect("/dashboard")
     
@@ -300,103 +322,126 @@ def topic(username,id):
 @login_required
 def all(username):
     user = username
+    picture = url_for('static', filename='profile_pics/' + current_user.image_file)
     username_curr =  current_user.id
     if current_user.username == user:
         diary_content = Diary.query.filter_by(user_id = username_curr)
 
-        return render_template("topic.html", username = current_user.id,all = 0,diary_content=diary_content)
+        return render_template("topic.html", username = current_user.username,all = 0,diary_content=diary_content,image_file = picture)
         
     else :
         return redirect("/dashboard")
 
-@app.route('/chat', methods = ['GET', 'POST'])
+def save_picture(form_picture):
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_fn = random_hex + f_ext
+    picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
+
+    output_size = (125, 125)
+    i = Image.open(form_picture)
+    i.thumbnail(output_size)
+    i.save(picture_path)
+    return picture_fn
+
+@app.route('/account', methods=['GET', 'POST'])
 @login_required
-def chat():
-    username_curr = current_user.username
-    user_id = User.query.filter_by(username = username_curr).first().id
-
+def account():
     
-    user = User.query.all()
-    diary = Diary.query.filter_by(user_id = user_id)
-    
-    return render_template("chat.html",diary = diary, username = username_curr,user = user)
+    username =  current_user.username
+    diary_content = Diary.query.filter_by(user_id = current_user.id)
+    posts= Diary.query.filter_by(user_id = current_user.id).count()
+    no_posts = 0
+    diary_content = Diary.query.filter_by(user_id = current_user.id)
+    sorted_diary = diary_content.order_by(Diary.posted.desc())
+    following = Follow.query.filter_by(followed_id = current_user.id).count()
+    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+    return render_template('account.html', title='Account',
+                           image_file=image_file,  username = username,
+                           no_posts=posts,diary_content=sorted_diary,
+                           follower_amt = following,other = False)
 
-
-@app.route('/chat/<username>', methods = ['GET', 'POST'])
+@app.route('/account/<username>', methods=['GET', 'POST'])
 @login_required
-def send_msg(username):
-    user = username
-    sender_id = User.query.filter_by(username = user).first().id
-    form = MessageForm()
-    username_curr = current_user.username
-    user_id = User.query.filter_by(username = username_curr).first().id
-    user = User.query.all()
-    diary = Diary.query.filter_by(user_id = user_id)
-    recieved_msg = Message.query.filter_by(recipient_id = user_id,sender_id = sender_id )
-    sent_msg = Message.query.filter_by(sender_id = user_id,recipient_id = sender_id )
-    #pusher_client.trigger('my-channel', 'my-event', {'message': 'hello world'})
-    return render_template("chat.html",user_id = user_id,diary = diary, username = username_curr,user = user,chat =1,msg=username,form = form,recieved = recieved_msg,sent = sent_msg, sender_id = sender_id)
+def accountUser(username):
+    username =  username
+    if current_user.username == username:
+        other = False
+    else:
+        other = True
+    user = User.query.filter_by(username=username).first()
+    diary_content = Diary.query.filter_by(user_id = user.id)
+    posts= Diary.query.filter_by(user_id = user.id).count()
+    no_posts = 0
+    diary_content = Diary.query.filter_by(user_id = user.id)
+    users = User.query.filter_by().all() 
+    sorted_diary = diary_content.order_by(Diary.posted.desc())
+    following = Follow.query.filter_by(followed_id = user.id).count()
+    image_file = url_for('static', filename='profile_pics/' + user.image_file)
+    return render_template('account.html', title='Account',
+                           image_file=image_file,  username = username,
+                           no_posts=posts,diary_content=sorted_diary,
+                           follower_amt = following,other = other,
+                           user = user,User=User,current = current_user)
 
-@socketio.on('message')
-def handleMessage(msg):
-    print("Message" + msg)
-    send(msg, broadcast=True)
-
-@app.route('/chat/sendmessage/<recipient>', methods=['GET', 'POST'])
+@app.route('/edit', methods=['GET', 'POST'])
 @login_required
-def send_message(recipient):
-    user = User.query.filter_by(username=recipient).first()
-    form = MessageForm()
-    
+def edit():
+    username =  current_user.username
+    posts= Diary.query.filter_by(user_id = current_user.id).count()
+    no_posts = 0
+    form = UpdateAccountForm()
+    following = Follow.query.filter_by(followed_id = current_user.id).count()
     if form.validate_on_submit():
-        msg = Message(author=current_user, recipient=user,
-                      body=form.message.data)
-        db.session.add(msg)
-        db.session.commit()
-        return redirect(f'../{recipient}')
         
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            current_user.image_file = picture_file
+        current_user.username = form.username.data
+        db.session.commit()
+        flash('Your account has been updated!', 'success')
+        return redirect(url_for('account'))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        
+    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+    return render_template('edit.html', title='Account',
+                           image_file=image_file, form=form, 
+                           username = username,all = 0,
+                           no_posts=posts,follower_amt = following)
 
-    return render_template('send_message.html', title=('Send Message'),form = form,
-                            recipient=recipient)
+@app.route('/follow/<username>/<int:user_id>/')
+@login_required
+def follow_user(username, user_id):
+    whom_id = user_id
+    user = current_user
+    following = User.query.filter_by(id= user_id).first() 
+    User.follow(user, following)
+    return redirect('/dashboard')
 
-@app.route('/search', methods=['GET', 'POST'])
+@app.route('/Unfollow/<username>/<int:user_id>/')
+@login_required
+def unfollow_user(username, user_id):
+    whom_id = user_id
+    user = current_user
+    following = User.query.filter_by(id= user_id).first() 
+
+    User.unfollow(user, following)
+    return redirect('/dashboard')
+
+@app.route('/search')
 @login_required
 def search():
+    username =  current_user.username
     form = SearchForm()
-    username_curr =  current_user.username
-    diary = Diary.query.filter_by(username = username_curr)    
-    return render_template('search.html',form  = form, diary = diary,username = username_curr)
-  
-
-@app.route('/search/<user>', methods=['GET', 'POST'])
-@login_required
-def searchRes(user):
-    
-    form = SearchForm()
-    username = user
-    search = "%{0}%".format(username)
-    result = User.query.filter(User.username.like(search)).all()
-    username_curr =  current_user.username
-    diary = Diary.query.filter_by(username = username_curr)
-    return render_template('search.html',form  = form, result= result, diary = diary,username = username_curr)
-  
-
-@app.route('/add/<username>')
-@login_required
-def follow_user(username):
-    user = User.query.filter_by(username=username).first()
-    if user is None:
-        flash('Invalid user.')
-        return redirect(url_for('dashboard'))
-    if current_user.is_following(user):
-        flash('You are already following %s.' % user.username)
-        return redirect(url_for('dashboard', username=username))
-    current_user.follow(user)
-    db.session.commit()
-    flash('You are now following %s.' % user.username)
-    return redirect(url_for('dashboard', username=username))
-
-
+    users = User.query.filter_by().all() 
+    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+    return render_template("search.html",users=users,
+    image_file=image_file,form=form,
+    username = username,current = current_user,
+    User=User)
 
 if __name__ == "__main__":
-    app.run(debug = True)
+    app.run(debug=True)
+    #manager.run()
+    

@@ -1,0 +1,79 @@
+{% extends 'base_logged.html' %}
+{% block head%}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/base2.css') }}">
+<title>Account / SecretDiaries</title>
+{% endblock %}
+{% block content%}
+<a href="/account/{{current_user.username}}"><img src="../static/images/profile.png" alt="" style="width: 28px;"></a>
+<a href="/account/{{ username }}" style="margin-top: 50vh;"class="accounts"><img class="rounded-circle account-img" src="{{ image_file }}"></a>
+{% endblock %}
+{% block body %}
+{% block topnav %}
+<div class="head">
+    <h5>{{ username }}</h3>
+<div class="content"></div>
+    <p> Posts {{ no_posts}}</p>
+</div>
+</div>
+{% endblock %}
+<div class="content-section">
+    <div class="media">
+    <div class="heads">
+        <div class="account-image">
+            <img class="rounded-circle account-img" src="../static/profile_pics/{{ user.image_file }}?v=1.1">
+        </div>
+        <div class="account-btn">
+        {% if not other%}
+        <a href="/edit"class="edit" style="color:#f0b17d; text-decoration: none;font-size: 14px;">Edit Profile</a>
+        {% else %}
+        {% if current.is_following(user) %}
+        <a style="padding-top:5px;padding-bottom:5px;
+        padding-left:10px;padding-right:10px;
+        background-color:rgb(167, 25, 25);;
+        text-decoration: none; color: white; font-size: 14px;
+        border-radius: 10px;
+        "href="/Unfollow/{{ user.username }}/{{ user.id }}">Unfollow
+        </a>
+       {% else %}
+       <a style="padding-top:5px;padding-bottom:5px;
+       padding-left:10px;padding-right:10px;
+       background-color:rgb(136, 255, 103);
+       ;text-decoration: none; color: white;
+        font-size: 14px; border-radius: 10px;
+       "href="/follow/{{ user.username }}/{{ user.id }}">Follow
+       </a>
+       {% endif %}
+        {% endif %}
+        </div>
+    </div>
+      <div class="media-body">
+        <h2 class="account-heading">{{ user.username }}</h2>
+        <p class="account-heading" style="font-size: 14px;color:#333; width:40vw;">Followers : {{ follower_amt }}</p>
+      </div>
+</div>
+
+    
+    <div class="row marketing">
+        <div class="col-lg-12">
+            {% for tweet in diary_content %}
+            <div class="posts">
+                <div class="media-left">
+                    <a href="#">
+                        <img src="" alt="" />
+                    </a>
+                </div>
+                <div class="acc-img">
+                    <a href="/account" class="usernames"><img class="rounded-circle account-img" src="{{ image_file }}"><p class="username">{{ tweet.poster.username }}</p></a>
+                </div>
+                <h3 class="topic_diary" style="color: rgb(72, 72, 72); font-size :16px ;">{{ tweet.topic }}</h3>
+                <p class="contet_diary" style="color: rgb(72, 72, 72); font-size :14px ;">{{ tweet.content }}</p>    
+                   
+                    
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+  
+
+{% endblock %}

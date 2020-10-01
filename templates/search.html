@@ -1,43 +1,59 @@
 {% extends 'base_logged.html' %}
 {% import "bootstrap/wtf.html" as wtf %}
+{% block head%}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/base2.css') }}">
+<title>Search / SecretDiaries</title>
+{% endblock %}
 {% block content%}
-{% for data in diary %}
-    {% set user = data.username%}
-    <a href="/topic/{{data.username}}/{{ data.id_per_user }}"> {{ data.date }}</a>
-
-
-{%endfor%}
-<a  style="vertical-align: middle; text-align: center; color: rgb(72, 72, 72); text-decoration: none;" href="/topic/{{ username}}/all">View All Pages</a>
-<a  style="vertical-align: middle; text-align: center; color: rgb(72, 72, 72); text-decoration: none;" href="/chat">Chat</a>
-
-<a  style="vertical-align: middle; text-align: center; color: rgb(72, 72, 72); text-decoration: none;" href="/logout">Login Out</a>
-
-
+<a href="/account/{{current_user.username}}"><img src="../static/images/profile.png" alt="" style="width: 28px;"></a>
+<a href="/account/{{ username }}" style="margin-top: 50vh;"class="accounts"><img class="rounded-circle account-img" src="{{ image_file }}"></a>
 {% endblock %}
 {% block body %}
-<h1>Search</h1>
-
-<form action="/search/{{ form.search.data }}" method="post" class="search">
+{% block topnav %}
+<div class="head">
+    <h5>{{ username }}</h3>
+<div class="content"></div>
+    
+</div>
+</div>
+{% endblock %}
+<form method="GET" class="search">
     {{ form.hidden_tag() }}
             {{ wtf.form_field(form.search) }}
             {{ wtf.form_field(form.submit) }}
-
-    
 </form>
 
-{% if result %}
-{% for row in result %}
-    <div class="list">
+{% if users %}
+{% for row in users %}
+    {% if row.username != username%}
+    <div class="list" style="display: flex;flex-direction: row;">
         <div class="names">
             <p style="text-decoration: none; color: rgb(71, 71, 71); font-size: 18px;">{{ row.username }}</p>
         </div>
    <div class="link">
-    <a style="padding-left:10px;padding-right:10px;background-color:rgb(127, 206, 0);;text-decoration: none; color: white; font-size: 14px;"href="/add/{{ row.username }}/{{ row.id }}">Add</a>
-   </div>
+       
+       {% if current.is_following(row) %}
+        <a style="padding-left:10px;padding-right:10px;
+        background-color:rgb(167, 25, 25);;
+        text-decoration: none; color: white; font-size: 14px;
+        border-radius: 10px;
+        "href="/Unfollow/{{ row.username }}/{{ row.id }}">Unfollow
+        </a>
+       {% else %}
+       <a style="padding-left:10px;padding-right:10px;
+       background-color:rgb(136, 255, 103);
+       ;text-decoration: none; color: white;
+        font-size: 14px; border-radius: 10px;
+       "href="/follow/{{ row.username }}/{{ row.id }}">Follow
+       </a>
+       {% endif %}
+</div>
    
 </div>
-
+ {% endif %}
 {%endfor%}
+{% else %}
+
 {% endif %}
 
 

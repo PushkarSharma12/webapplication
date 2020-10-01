@@ -5,7 +5,7 @@
 <head>
    
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/base2.css') }}">
+    <link rel="stylesheet" type="text/css" href="../static/css/base2.css?v=12">
     {% block head %}{% endblock %}
     <style>
         p{
@@ -32,19 +32,25 @@
 <body class="bod">
   
 <header class="top fade-in-element" id = "topnav" >
-    <div class = "burger">
+    <!--<div class = "burger">
         <div class = "line1"></div>
         <div class = "line2"></div>
         <div class = "line3"></div>
         
-    </div>
+    </div>-->
     <div class ="logo">
-    <a href="/"><img src="{{ url_for('static', filename='images/Logo.png') }}" alt="" class= "Logo-Image" id = "imageLogo"></a>
+      <a href="/"><img src="{{ url_for('static', filename='images/logo-dn.png') }}" alt="" class= "Logo-Image" id = "imageLogo"></a>
+      {% block topnav %}
+      {% endblock %}
     </div>
     <ul class = "nav-links" id = "nav-scroll">
+       <a href="/dashboard"><img src="../static/images/home-icon.png?v=yett" alt=""></a>
+       <a href="/search"><img src="../static/images/search-512.webp" alt="" style="width: 25px;"></a>
+       <a href="/notifications"><img src="../static/images/notification-icon.png" alt="" style="width: 25px;"></a>
+       
        {% block content%}
        {% endblock %}
-        </ul>
+    </ul>
        
     </header>
    
@@ -52,7 +58,7 @@
     <script>
         
     </script>
-      <script>
+<!--    <script>
         window.onscroll = function() {
     var currentScrollPos = window.pageYOffset;
   
@@ -64,7 +70,7 @@
       document.getElementById("nav-scroll").style.display = "flex";
     }
   }
-    </script>
+    </script>-->
    {% with messages = get_flashed_messages() %}
    {% if message %}
    
@@ -76,6 +82,5 @@
 {% block body %}
 
 {% endblock %}
-
 </body>
 </html>

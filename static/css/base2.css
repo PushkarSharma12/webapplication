@@ -12,7 +12,6 @@ body {
 
 
 html{
-
     -webkit-font-smoothing: antialiased;
 
 }
@@ -47,13 +46,21 @@ p{
 
 
 #topnav {
+    z-index: 50;
     display: flex;
     flex-direction: row;
     height: 8vh;
     width: 100%;
-    justify-content: space-around;
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+    justify-content: flex-start;
     background-color: rgb(253, 217, 98);
     font-family: 'Segoe UI';
+    top: 0px;
+}
+.logo{
+    margin-left: 2%;
 }
 #topnav li {
     list-style: none;
@@ -80,9 +87,8 @@ p{
 }
 
 #imageLogo{
-    
-    width:  100px;
-    height: 70px;
+    width:  40px;
+    height: 40px;
 
 }
 
@@ -119,18 +125,54 @@ p{
     display: flex;
     flex-direction: column;
     position: fixed;
-    left: 0px;
     margin-top: 8vh;
+    left: 0px;
     height: 100%;
-    width: 20%;
+    width: 10%;
     padding: 0px;
     top: 0vh;
     background-color: rgb(255, 216, 89, 0.9);
    
     align-items: center;
-    transform: translateX(-100%);
-    transition: transform 0.5s ease-in;
+    /*transform: translateX(-100%);
+    transition: transform 0.5s ease-in;*/
     
+}
+.head{
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 0px;
+    margin-top: 0vh;
+    height: 100%;
+    
+    width: 10%;
+    padding: 0px;
+    top: 0vh;
+    margin-left: 10%;
+}
+.head h5{
+    display: block;
+    
+    font-size: 22px;
+    margin: 0px;
+    padding: 0px;
+    margin-left: 40%;
+    text-align: left;
+}
+.head p{
+    color: #666;
+   margin-left: 40%;
+   width: 100%;
+}
+.content{
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    
+}
+.nav-links a img{
+    width: 35px;
 }
 .main_cont{
     display: flex;
@@ -141,24 +183,285 @@ p{
     min-height: 50%;
 }
 .contet_diary{
-    min-width: 100%;
-    min-height: 400px;
     text-align: left;
-    border:2px solid #f1a566;
+    left: 120px;
+    position: relative;
+    width: 65%;
 }
-.today{
-    background-color: #ffffff;
-    min-width: 70vw;
-    min-height: 30vh;
-    border: 0.1px solid #f1a566;
-}
+
 main{
     display: flex;
     flex-direction: row;
     align-items: flex-end;
     width: 100%;
 }
+.bg-steel {
+    background-color: #5f788a;
+  }
+  
+  .site-header .navbar-nav .nav-link {
+    color: #cbd5db;
+  }
+  
+  .site-header .navbar-nav .nav-link:hover {
+    color: #ffffff;
+  }
+  
+  .site-header .navbar-nav .nav-link.active {
+    font-weight: 500;
+  }
+  
+  
+  
+  .article-title {
+    color: #444444;
+  }
+  
+  a.article-title:hover {
+    color: #428bca;
+    text-decoration: none;
+  }
+  
+  .article-content {
+    white-space: pre-line;
+  }
+  
+  .article-img {
+    height: 65px;
+    width: 65px;
+    margin-right: 16px;
+  }
+  .heads{
+    top: 100px;
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    margin-left:15px;
+    justify-content: flex-start;
+    float: left;
+    
+  }
+  .accounts img{
+      
+    position: relative;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin-right: -2px;
+  }
+  .media{
+      position: relative;
+      margin-left: 10vw;
+  }
+  .medias{
+    position: relative;
+    margin-left: -33vw;
+  }
+  .media img{
+    position: relative;
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    border-radius: 50%;
+  }
+  .medias img{
+    position: relative;
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    border-radius: 50%;
+  }
+  .account-image{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    float: left;
+    left: 10px;
+    vertical-align: middle;
+    
+  }
+  .acc-img{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: relative;
+    top: 0px;
+  }
+  .acc-img img{
+      width: 100px;
+      height: 100px;
+  }
+  .acc-img-dash{
+    width: 10%;
+    top: 10vh;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    align-items: flex-start;
+    right:30vw ;
+  }
+  .form-post{
+    position: relative;
+    width: 40%;
+    display: flex;
+    top: 2vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: sans-serif;
+    left: 10vw;
+    font-size: 14px; 
+}
+  .post-it{
+      width: 10%;
+      display: flex;
+      flex-direction: row;
+      ;
+  }
+  .today{
+    background-color: #ffffff;
+    min-width: 70vw;
+    min-height: 10vh;
+    font-size: 14px;
+    font-family: sans-serif;
+    border: 0px;
+}
+.heading{
+    background-color: #ffffff;
+    min-width: 40vw;
+    border: 0px solid #f1a566;
+    margin-bottom: 20px;
+    font-size: 16px; 
+}
 
+  .usernames{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    color: #333;
+    text-decoration: none;
+    text-align: left;
+    vertical-align: middle;
+    margin-top: -1vh;
+    margin-left: -0.5vw;
+    position: relative;
+    top: 0px;
+  }
+  .username{
+    font-weight: 1000;
+    font-size: 16px;
+    color: #333;
+    text-decoration: none;
+    text-align: left;
+    vertical-align: middle;
+    margin-top: 0px;
+  }
+  .cont{
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: left;
+      align-items: flex-start;
+      padding-right: 15%;
+      width: 65%;
+  }
+  .topic_diary{
+    margin-top: -5%;
+    left: 120px;
+    width: 50%;
+    position: relative;
+  }
+  .posts{
+    position: relative;
+    top: 100px;
+    padding-left: 5%;
+    padding-bottom: 5%;
+    margin-bottom: 40px;
+    width: 70vw;
+    border:0.01px solid #b1b1b1;
+    border-radius: 50px;
+    
+  }
+  .diary-post{
+    margin-bottom: 0px;
+  }
+
+  .acc-img{
+    display: flex;
+    flex-direction: row;
+
+  }
+
+  .account-btn{
+      position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    float: right;
+    right: -20vw;
+  }
+
+  .edit{
+      padding-top: 10px;
+      padding-bottom: 10px;
+      padding-right: 20px;
+      padding-left: 20px;
+      border: 2px solid #f0b17d;
+      border-radius: 30px;
+  }
+  .media-body{
+      position: relative;
+      top: 100px;
+      margin-left: 40px;
+      width: 1%;
+  }
+  .edit:hover{
+      cursor: pointer;
+  }
+  .update{
+      position: absolute;
+      top: 50%;
+      margin-left: -33vw;
+      width: 80%;
+  }
+  .article-metadata {
+    padding-bottom: 1px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid #e3e3e3
+  }
+  
+  .article-metadata a:hover {
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .article-svg {
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+  }
+  
+  .account-img {
+      position: relative;
+      top: 0px;
+    height: 65px;
+    width: 65px;
+    margin-right: 20px;
+    border-radius: 50%;
+  }
+  
+  .account-heading {
+    font-size: 4vh;
+    width: 1%;
+  }
 .friend{
     z-index: -1;
     width: 15%;
@@ -185,8 +488,8 @@ main{
 
 
 .all_msg{
-    overflow-y: scroll;
-    height: 80%;
+    overflow-y: auto;
+    height: 100%;
     width: 100%;
     min-height:80%;
     max-height: 80%
@@ -196,7 +499,7 @@ main{
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin-top:40px ;
+    margin-top:8vh ;
     margin-bottom: 40px;
 }
 textarea {
@@ -214,7 +517,6 @@ textarea {
     border: 1px solid #f0b17d;
     font-family: sans-serif;
     border-radius: 30px;
-
     border-radius: 30px;
     padding-top: 1vh;
     padding-bottom: 1vh;
@@ -231,6 +533,7 @@ textarea {
     padding-bottom: 1vh;
     min-width: 50px;
     max-width: 30%;
+    margin-top: 4vh;
 }
 
 .message{
@@ -307,21 +610,12 @@ textarea {
     text-decoration:none;
     color: #f0b17d;
 }
-.heading{
-    background-color: #ffffff;
-    min-width: 40vw;
-    border: 0.1px solid #f1a566;
-    margin-bottom: 20px;
-    font-size: 18px; 
+.friend a:hover {
+    color: #da6506;
+    cursor: pointer;
 }
-.add{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-family: sans-serif;
-    font-size: 18px; 
-}
+
+
 .today:active{
     border: none;
 }
@@ -330,14 +624,16 @@ textarea {
     font-size: 16px;
     background-color: #f1a566;
     border: 2px solid #f1a566;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 30px;
-    padding-right: 30px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
     border-radius: 20px;
+    color: rgb(255, 255, 255);
 }
 .btn:hover{
     background-color: #f0b17d;
+    cursor: pointer;
 }
 .nav-links li {
     opacity: 0;
@@ -355,6 +651,45 @@ h1{
     align-items: flex-end;
     justify-content: right;
     text-align: right;
+}
+@keyframes fadeIn {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+  }
+  
+.my-msg{
+    border-radius: 5px;
+    border:2px solid rgb(118, 230, 149);
+    background-color: rgb(134, 248, 142);
+    min-width: 30%;max-width: 70%;
+    font-size: 16px; vertical-align: middle;
+    text-align: left; color: rgb(81, 81, 81);
+    text-decoration: none;
+    font-weight: bold;
+    animation-name: fadeIn;
+    animation-duration: 0.75s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+}
+.others-msg{
+    margin-left: 10px;
+    border-radius: 5px;
+    margin-right: 67%;
+    border:2px solid rgb(233, 233, 233);
+    background-color: rgb(187, 187, 187);
+    min-width: 30%;max-width: 70%;
+    font-size: 16px; vertical-align: middle;
+    text-align: left; color: rgb(61, 61, 61);
+    text-decoration: none;
+    font-weight: bold;
+    animation-name: fadeIn;
+    animation-duration: 0.75s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+}
+#now-send{
+    width: 100%;
+    align-items: flex-end;
 }
 
 @keyframes fade-in-element {
@@ -386,6 +721,9 @@ h1{
         margin-left:40% ;
         width: 60%;
     }
+    .form-post{
+        left: 12vw;
+    }
     
 }
 /*for mobile*/
@@ -404,9 +742,19 @@ h1{
             overflow-x: hidden;
             
         }
+        .medias{
+            position: relative;
+            margin-left: -15vw;
+          }
+          .update{
+            margin-left: -15vw;
+          }
         .friend{
 
             width: 40%;
+        }
+        .form-post{
+            left: 15vw;
         }
         .chat_main{
             margin-left:40% ;
@@ -416,12 +764,14 @@ h1{
     #topnav {
         display: flex;
         flex-direction: row;
+        justify-content: flex-start;
         height: 8vh;
+        position: fixed;
         
     }
     #imageLogo{
         position: static;
-        
+        margin-top: 0px;
     }
    
 

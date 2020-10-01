@@ -1,0 +1,67 @@
+{% extends 'base_logged.html' %}
+{% block head%}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/base2.css') }}">
+<title>Account / SecretDiaries</title>
+{% endblock %}
+{% block content%}
+<a href="/account/{{current_user.username}}"><img src="../static/images/profile.png" alt="" style="width: 28px;"></a>
+<a href="/account/{{ username }}" style="margin-top: 50vh;"class="accounts"><img class="rounded-circle account-img" src="{{ image_file }}"></a>
+{% endblock %}
+{% block body %}
+{% block topnav %}
+<div class="head">
+    <h5>{{ username }}</h3>
+<div class="content"></div>
+    <p> Posts {{ no_posts}}</p>
+</div>
+</div>
+{% endblock %}
+<div class="content-section">
+    <div class="medias">
+    <div class="heads">
+        <div class="account-image">
+            <img class="rounded-circle account-img" style="margin-left: -20%;"src="{{ image_file }}">
+        </div>
+        <div class="account-btn">
+            <a href="/edit"class="edit" style="color:#f0b17d; text-decoration: none;font-size: 14px;">Edit Profile</a>
+        </div>
+    </div>
+      <div class="media-body">
+        <h2 class="account-heading">{{ current_user.username }}</h2>
+      </div>
+    </div>
+    <div class="update">
+        <form method="POST" action="" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Account Info</legend>
+                <div class="form-group">
+                    {{ form.username.label(class="form-control-label") }}
+  
+                    {% if form.username.errors %}
+                        {{ form.username(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.username.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.username(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    {{ form.picture.label() }}
+                    {{ form.picture(class="form-control-file") }}
+                    {% if form.picture.errors %}
+                        {% for error in form.picture.errors %}
+                            <p class="text-danger">{{ error }}</p></br>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+    </div>
+      
+{% endblock %}
