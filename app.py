@@ -174,10 +174,6 @@ class Message(db.Model):
 
     def __repr__(self):
         return '<Message {}>'.format(self.body)
-    
-   
-
-
 
 manager.add_command('db', MigrateCommand)
 
@@ -442,6 +438,15 @@ def search():
     username = username,current = current_user,
     User=User)
 
+@app.route('/notifications')
+@login_required
+def notification():
+    username =  current_user.username
+    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+    return render_template("notification.html",
+    image_file=image_file,
+    username = username,current = current_user,
+    User=User)
 if __name__ == "__main__":
     app.run(debug=True)
     #manager.run()
