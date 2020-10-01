@@ -405,10 +405,6 @@ def edit():
     form = UpdateAccountForm()
     following = Follow.query.filter_by(followed_id = current_user.id).count()
     if form.validate_on_submit():
-        
-        if form.picture.data:
-            picture_file = form.picture.data
-            current_user.image_file = picture_file
         current_user.username = form.username.data
         db.session.commit()
         flash('Your account has been updated!', 'success')
@@ -416,7 +412,7 @@ def edit():
     elif request.method == 'GET':
         form.username.data = current_user.username
         
-    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+    image_file = current_user.image_file
     return render_template('edit.html', title='Account',
                            image_file=image_file, form=form, 
                            username = username,all = 0,
