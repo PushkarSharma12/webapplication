@@ -1,4 +1,5 @@
 {% extends 'base_logged.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
 {% block head%}
 <title>Home / SecretDiaries</title>
 {% endblock %}
@@ -24,10 +25,17 @@
 </div>
 <!--<h3 style="vertical-align: middle; text-align: center; color: rgb(74, 74, 74); text-decoration: none;">{{ username}} Your Diary</h3>-->
 <div class="form-post">
-<form action="/submitDiary" method="post" class="add" autocomplete="off">
+<!--<form action="/submitDiary" method="post" class="add" autocomplete="off">
     <input name = "topic" type="text" class="heading" placeholder="Todays Topic">
     <textarea name="text" class="today" placeholder="Write todays story....."></textarea><br>
     <input type="submit" class="btn">
+</form>-->
+<form method="POST" class="add" autocomplete="off">
+
+        {{ form.hidden_tag() }}
+            {{ wtf.form_field(form.topic,class='heading') }}
+            {{ wtf.form_field(form.content,class='today') }}
+            {{ wtf.form_field(form.submit) }}
 </form>
 </div>
 {% for tweet in all_tweets %}
@@ -48,4 +56,12 @@
             </div>
             {% endfor %}
 </div>
+<script>
+    var all = hold.getElementsByClass(".control-label");
+        for (var i=0; i < all.length; i++){
+            var parent = all[i].parentElement;
+            parent.removeChild(all[i])
+            }
+        
+</script>
 {% endblock %}

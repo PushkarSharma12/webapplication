@@ -275,6 +275,13 @@ def success():
 @app.route('/dashboard', methods = ['POST','GET'])
 def dashboard():
     #print (f"{User..id}")
+    form = SubmitDiary()
+    if form.validate_on_submit():
+        topic = form.topic.data
+        content = form.content.data
+        diary_sub = Diary(poster=current_user, content = content, topic = topic )
+        db.session.add(diary_sub)
+        db.session.commit()
     username_curr = current_user.username
     tweets = User.followed_posts(current_user)
     user_id = User.query.filter_by(username = username_curr).first().id
@@ -289,7 +296,7 @@ def dashboard():
     return render_template("dashboard.html", diary_content = diary_content,
      username = username_curr,
      user_id = user_id,image_file = picture,
-     all_tweets=User.followerPost(current_user))
+     all_tweets=User.followerPost(current_user),form = form)
 
 
 @app.route('/logout', methods = ['GET'])
@@ -304,13 +311,13 @@ def logout():
 @login_required
 def submitDiary():
     username =  current_user.id
-    picture = url_for('static', filename='profile_pics/' + current_user.image_file)
-    
+    current_user.image_file
     topic = request.form['topic']
     content = request.form['text']
-    diary_sub = Diary(poster=current_user, content = content, topic = topic )
-    db.session.add(diary_sub)
-    db.session.commit()
+    if len(topic)<=140 and len(content)<=140:
+        diary_sub = Diary(poster=current_user, content = content, topic = topic )
+        db.session.add(diary_sub)
+        db.session.commit()
 
     return redirect("/dashboard")
 

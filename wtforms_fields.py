@@ -32,7 +32,12 @@ def invalid_credentials(form, field):
 
 
 
-
+class SubmitDiary(FlaskForm):
+    topic = StringField ('',validators=[DataRequired(), Length(min=0, max=140)],render_kw={'class': 'heading','placeholder':'Topic '})
+    content = TextAreaField('',validators=[
+        DataRequired(), Length(min=0, max=140)],render_kw={'class': 'today','placeholder':'Write Content here....'})
+    submit = SubmitField('Submit',
+            render_kw={'class': 'btn btn-success btn-block'})
 class LoginForm(FlaskForm):
     """ Login form """
 

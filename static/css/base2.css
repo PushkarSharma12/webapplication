@@ -241,10 +241,8 @@ main{
     margin-left:15px;
     justify-content: flex-start;
     float: left;
-    
   }
   .accounts img{
-      
     position: relative;
     width: 50px;
     height: 50px;
@@ -338,6 +336,9 @@ main{
     border: 0px solid #f1a566;
     margin-bottom: 20px;
     font-size: 16px; 
+    margin-left:0px;
+    position: relative;
+    left: 0px;
 }
 
   .usernames{
@@ -510,6 +511,9 @@ textarea {
   }
 .search input[type='submit']:hover{
     cursor: pointer;
+}
+.control-label{
+    display: none;
 }
 .search input{
     display: flex;
