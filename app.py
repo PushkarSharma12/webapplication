@@ -28,7 +28,7 @@ from hashlib import md5
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'seckey'
-app.config['SQLALCHEMY_DATABASE_URI'] ='postgres://pfflhnsoygfrwm:dbfb95b73b9e7f02027b474fd3255ab63ad6fe3c483194637e53b6ae0be90322@ec2-52-202-66-191.compute-1.amazonaws.com:5432/d7km9rfhq4orfd'
+app.config['SQLALCHEMY_DATABASE_URI'] ='postgres://twnjjlkgkosact:3431c9e35b7c1bba7fe4c0e630391f876cc51acba24890d601afbdcb075d1496@ec2-3-220-222-72.compute-1.amazonaws.com:5432/d85fp0v33bols9'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.debug = True
 db = SQLAlchemy(app)
