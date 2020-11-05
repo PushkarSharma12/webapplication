@@ -1,5 +1,8 @@
 {% extends 'base_logged.html' %}
 {% block head%}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/base2.css') }}">
 <title>Account / SecretDiaries</title>
 {% endblock %}
@@ -21,27 +24,19 @@
     <div class="media">
     <div class="heads">
         <div class="account-image">
-            <img class="rounded-circle account-img" src="{{ user.image_file }}">
+            <img class="account-img" src="{{ user.image_file }}">
         </div>
         <div class="account-btn">
         {% if not other%}
         <a href="/edit"class="edit" style="color:#f0b17d; text-decoration: none;font-size: 14px;">Edit Profile</a>
         {% else %}
         {% if current.is_following(user) %}
-        <a style="padding-top:5px;padding-bottom:5px;
-        padding-left:10px;padding-right:10px;
-        background-color:rgb(167, 25, 25);;
-        text-decoration: none; color: white; font-size: 14px;
-        border-radius: 10px;
-        "href="/Unfollow/{{ user.username }}/{{ user.id }}">Unfollow
+        <a style="color:white" onclick="followUser(this)" user_id = {{user.id}} id = "unfollow"
+        class="unfollow">Unfollow
         </a>
        {% else %}
-       <a style="padding-top:5px;padding-bottom:5px;
-       padding-left:10px;padding-right:10px;
-       background-color:rgb(136, 255, 103);
-       ;text-decoration: none; color: white;
-        font-size: 14px; border-radius: 10px;
-       "href="/follow/{{ user.username }}/{{ user.id }}">Follow
+       <a style="color:white" onclick="followUser(this)" user_id = {{user.id}} id = "follow"
+        class="follow">Follow
        </a>
        {% endif %}
         {% endif %}
@@ -52,29 +47,167 @@
         <p class="account-heading" style="font-size: 14px;color:#333; width:40vw;">Followers : {{ follower_amt }}</p>
       </div>
 </div>
+ <!-- div to contain the content -->
+ <div id="scroller" class="">
+          
+    <!-- template schema, hidden from the dom -->
+    <template id="post_template">
+
+      
+
+    </template>
+
+  </div>
+
+  <!-- element to trigger the IntersectionObserver -->
+  <div class="" id="sentinel" style="margin-top: 100px;margin-bottom: 50px;">
+    <div class="spinner-border" role="status"></div>
+  </div>
+
+</div>
+</div>
+
+  
+    </div>
+  <script>
+    var pathArray = window.location.pathname.split('/');
+    var scroller = document.querySelector("#scroller");
+    var template = document.querySelector('#post_template');
+    var sentinel = document.querySelector('#sentinel');
+    
+    // Set a counter to count the items loaded
+    var counter = 0;
+    
+    // Function to request new items and render to the dom
+    function loadItems() {
+    
+      // Use fetch to request data and pass the counter value in the QS
+      fetch(`/load/account/${pathArray[2]}?c=${counter}`).then((response) => {
+        // Convert the response data to JSON
+        response.json().then((data) => {
+          // If empty JSON, exit the function
+          if (!data.length) {
+    
+            // Replace the spinner with "No more posts"
+            sentinel.innerHTML = "No more posts";
+            console.log(data.length)
+            return;
+          }
+    
+          // Iterate over the items in the response
+          for (var i = 0; i < data.length; i++) {
+
+            var div = document.createElement("div");
+          
+          var img = document.createElement('div');
+          
+          var img_anc = document.createElement('a');
+          
+          // var link = document.createAttribute("href"); 
+          // link.value = `/account/${data[i].poster.username}`
+          
+          var img_tag = document.createElement('img');
+          var interact = document.createElement('div');
+          var comment = document.createElement('img');
+          var like = document.createElement('img');
+          // var att = document.createAttribute("src"); 
+          // att.value = `${data[i].poster.image_file}` 
+          
+          var username = document.createElement('p');
+         
+          var h3 = document.createElement('h3');
+          
+          var content = document.createElement('p');
+          scroller.appendChild(div)
+          let template_clone = template.content.cloneNode(true);
+          // Query & update the template content
+          div.appendChild(img);
+          div.classList.add("posts-accpst");
+          img.appendChild(img_anc);
+          img.appendChild(username);
+          div.appendChild(h3);
+          div.appendChild(content);
+          div.appendChild(interact);
+          interact.classList.add("interact");
+          img_anc.appendChild(img_tag);
+          img_anc.appendChild(username);
+          interact.appendChild(comment);
+          comment.classList.add("comment");
+          interact.appendChild(like);
+          like.classList.add("like");
+          username.append(`${data[i].poster.username}`);
+          h3.append(`${data[i].topic}`);
+          content.append(`${data[i].content}`);
+          comment.setAttribute("src","/static/images/comment-1702559-1486974.webp");
+          comment.setAttribute("style","cursor:pointer");
+          like.setAttribute("style","cursor:pointer");
+          like.setAttribute("post_id",`${data[i].id}`);
+          
+          
+          if (data[i].liked){
+            like.setAttribute("id","unlike");
+            like.setAttribute("src","/static/images/Liked.webp?v=1.2");
+            
+            
+          }else{
+            like.setAttribute("id","like");
+            like.setAttribute("src","/static/images/Media-Icon-25-512.webp");
+            
+          }
+          
+          img_tag.setAttribute("src",`${data[i].poster.image_file}`);
+          img_anc.setAttribute("href",`/account/${data[i].poster.username}`);
+          username.classList.add("username");
+          img_anc.classList.add("usernames");
+          
+          img.classList.add("acc-img");
+          img_tag.classList.add("account-img");
+          h3.classList.add("topic_diary");
+          content.classList.add("contet_diary");
+          like.setAttribute("onclick",`likePost(this)`);
+          // Clone the HTML template
+          
+
+
+        // Append template to dom
+        scroller.appendChild(template_clone);
+        // Increment the counter
+        counter += 1;
+
+        // Update the counter in the navbar
+        
+      }
+    
+})
+
+  })
+}
 
     
-    <div class="row marketing">
-        <div class="col-lg-12">
-            {% for tweet in diary_content %}
-            <div class="posts">
-                <div class="media-left">
-                    <a href="#">
-                        <img src="" alt="" />
-                    </a>
-                </div>
-                <div class="acc-img">
-                    <a href="/account" class="usernames"><img class="rounded-circle account-img" src="{{ image_file }}"><p class="username">{{ tweet.poster.username }}</p></a>
-                </div>
-                <h3 class="topic_diary" style="color: rgb(72, 72, 72); font-size :16px ;">{{ tweet.topic }}</h3>
-                <p class="contet_diary" style="color: rgb(72, 72, 72); font-size :14px ;">{{ tweet.content }}</p>    
-                   
-                    
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-  
-
+    // Create a new IntersectionObserver instance
+    var intersectionObserver = new IntersectionObserver(entries => {
+    
+      // Uncomment below to see the entry.intersectionRatio when
+      // the sentinel comes into view
+    
+      // entries.forEach(entry => {
+      //   console.log(entry.intersectionRatio);
+      // })
+    
+      // If intersectionRatio is 0, the sentinel is out of view
+      // and we don't need to do anything. Exit the function
+      if (entries[0].intersectionRatio <= 0) {
+        return;
+      }
+    
+      // Call the loadItems function
+      loadItems();
+    
+    });
+    
+    // Instruct the IntersectionObserver to watch the sentinel
+    intersectionObserver.observe(sentinel);
+    
+    
+</script>
 {% endblock %}

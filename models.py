@@ -17,6 +17,16 @@ class Follow(db.Model):
                             primary_key=True)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
+class Like(db.Model):
+    """ Like Model """
+    __tablename__ = 'likes'
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'),
+                            primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('diary.tweet_id'),
+                            primary_key=True)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    
+
 class User(UserMixin, db.Model):
     """ User Model """
     __tablename__ = 'users'
@@ -24,7 +34,7 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key =True,autoincrement=True)
     username = db.Column(db.String(25), nullable = False)
     email = db.Column(db.String(85), unique=True, nullable = False)
-    image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
+    image_file = db.Column(db.String(150), nullable=False, default='default.png')
     passworrd = db.Column(db.String(500), nullable = False)
     posts = db.relationship('Diary', foreign_keys='Diary.user_id',
                                     backref='poster',lazy='dynamic')
@@ -35,7 +45,8 @@ class User(UserMixin, db.Model):
                                         foreign_keys='Message.recipient_id',
                                         backref='recipient', lazy='dynamic')
     last_message_read_time = db.Column(db.DateTime)
-
+    like = db.relationship('Like', foreign_keys='Like.user_id',
+                                    backref='liker',lazy='dynamic')
     followed = db.relationship('Follow',
                                foreign_keys=[Follow.follower_id],
                                backref=db.backref('follower', lazy='joined'),
@@ -47,10 +58,7 @@ class User(UserMixin, db.Model):
                               lazy='dynamic',
                               cascade='all, delete-orphan')
 
-    def new_messages(self):
-        last_read_time = self.last_message_read_time or datetime(1900, 1, 1)
-        return Message.query.filter_by(recipient=self).filter(
-            Message.timestamp > last_read_time).count()
+    
     def __init__(self, username=None, email=None, passworrd=None, image_file=None):
         self.username = username
         self.email = email
@@ -58,8 +66,11 @@ class User(UserMixin, db.Model):
         self.image_file = image_file
 
     def __repr__(self):
-        return '<User {0}>'.format(self.name)
-
+        return '<User {0}>'.format(self.username)
+    def new_messages(self):
+        last_read_time = self.last_message_read_time or datetime(1900, 1, 1)
+        return Message.query.filter_by(recipient=self).filter(
+            Message.timestamp > last_read_time).count()
     def get_id(self):
         return self.id
     def get_username(self):
@@ -106,7 +117,46 @@ class User(UserMixin, db.Model):
         #followed_users = Diary.query.filter_by(user_id = self.followed.id)
         #posts = followed_tweets.join(user_tweets)
         #return posts
+    def avatar(self, size):
+        digest = md5(self.email.lower().encode('utf-8')).hexdigest()
+        avatar = 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
+            digest, size)
+        self.image_file = avatar
+        db.session.commit()
+        return True
 
+    def like(self, post):
+        if not self.is_liking(post):
+            f = Like(liker=self, liked_post=post)
+            db.session.add(f)
+            db.session.commit()
+            return True
+
+    def unlike(self, post):
+        if self.is_liking(post):
+            f = Like.filter_by(post_id=post.id,user_id=self.id).first()
+            if f:
+                db.session.delete(f)
+                db.session.commit()
+                return True
+
+    def is_liking(self, post):
+        return Like.query.filter(
+            Like.user_id == self.id,
+            Like.post_id == post.tweet_id).count() > 0
+
+    def serialize(self):
+        return {
+           'id'         : self.id,
+           'username'   : self.username,
+           'email'   : self.email,
+           'image_file' : self.image_file,
+       }
+def dump_datetime(value):
+    """Deserialize datetime object into string form for JSON processing."""
+    if value is None:
+        return None
+    return [value.strftime("%Y-%m-%d"), value.strftime("%H:%M:%S")]
 class Diary(db.Model):
     """ Diary Model """
     __tablename__ = 'diary'
@@ -115,12 +165,38 @@ class Diary(db.Model):
     content =  db.Column(db.String(999),  nullable = False)
     topic =  db.Column(db.String(999),  nullable = False)
     posted = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    
+    liked_post = db.relationship('Like',
+                               foreign_keys='Like.post_id',
+                               backref='liked_post',
+                               lazy='dynamic')
 
     def __repr__(self):
-        return '<Id {0} - {1}>'.format(self.tweet_id, self.tweet)
-
-
+        return "<'Id {0} - {1} - {2}>'".format(self.tweet_id, self.content, self.topic)
+    
+    @property
+    def serialize(self):
+        """Return object data in easily serializable format"""
+        return  {
+                'id'         : self.tweet_id,
+                'user_id'    : self.user_id,
+                'topic'      : self.topic,
+                'content'      : self.content,
+                'posted': dump_datetime(self.posted),
+                # This is an example how to deal with Many2Many relations
+                'poster'   :{
+                                'id'       :  {self.poster.id},
+                                'username' :  {self.poster.username},
+                                'email'    :  {self.poster.email},
+                                'image_file': {self.poster.image_file}
+                    }
+            }
+    
+    def serialize_many2many(self):
+       """
+       Return object's relations in easily serializable format.
+       NB! Calls many2many's serialize property.
+       """
+       return [ item.serialize for item in self.poster]
 
     @classmethod
     def delta_time(cls, tweet_posted):
@@ -137,8 +213,8 @@ class Diary(db.Model):
             return str(minutes) + 'm'
         else:
             return 'few seconds ago'
-
-
+    
+    
 class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     sender_id = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -148,6 +224,3 @@ class Message(db.Model):
 
     def __repr__(self):
         return '<Message {}>'.format(self.body)
-
-
-    

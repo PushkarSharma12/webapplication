@@ -1,0 +1,42 @@
+{% extends 'base_logged.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block head%}
+<title>Home / SecretDiaries</title>
+{% endblock %}
+{% block content%}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<a href="/account/{{current_user.username}}"><img src="../static/images/profile.png" alt="" style="width: 28px;"></a>
+<a href="/account/{{ username }}" style="margin-top: 50vh;"class="accounts"><img class="rounded-circle account-img" src="{{ image_file }}"></a>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+{% endblock %}
+{% block body %}
+{% block topnav%}
+<div class="head">
+    <h5>Home</h3>
+</div>
+{% endblock %}
+<!-- div to contain the content -->
+<div id="" class="post_it">
+        <div class="posts"><div class="acc-img"><a href="/account/MrClapzy" class="usernames"><img src="https://www.gravatar.com/avatar/e0d8b05cb56fa6c97ae37a9ba7da52af?d=identicon&amp;s=400" class="account-img"><p class="username">MrClapzy</p></a></div><h3 class="topic_diary">Now the 140 character length should work</h3><p class="contet_diary">Now the 140 character length should work</p>
+        <div class="interact">
+            <img src="/static/images/comment-1702559-1486974.webp" alt="" class="comment">
+            <img src="/static/images/Media-Icon-25-512.webp" alt="" class="like">
+        </div>
+        </div>
+        <div class="posts"><div class="acc-img"><a href="/account/MrClapzy" class="usernames"><img src="https://www.gravatar.com/avatar/e0d8b05cb56fa6c97ae37a9ba7da52af?d=identicon&amp;s=400" class="account-img"><p class="username">MrClapzy</p></a></div><h3 class="topic_diary">Now the 140 character length should work</h3><p class="contet_diary">Now the 140 character length should work</p>
+        <div class="interact">
+            <img style="cursor: pointer;" onclick='window.location.href="like"' src="/static/images/comment-1702559-1486974.webp" alt="" class="comment">
+            <img src="/static/images/Media-Icon-25-512.webp" alt="" class="like">
+        </div>
+        </div>
+  </div>
+  <!-- element to trigger the IntersectionObserver -->
+  
+  </div>
+
+</div>
+</div>
+
+
+
+{% endblock %}

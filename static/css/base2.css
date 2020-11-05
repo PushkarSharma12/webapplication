@@ -2,11 +2,11 @@
 * {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+          padding: 0px;
           -webkit-font-smoothing: antialiased;
 }
 
 body {
-
   overflow-x: hidden;
 }
 
@@ -171,6 +171,7 @@ p{
     position: fixed;
     
 }
+
 .nav-links a img{
     width: 35px;
 }
@@ -182,13 +183,60 @@ p{
     min-width: 90%;
     min-height: 50%;
 }
-.contet_diary{
-    text-align: left;
-    left: 120px;
-    position: relative;
-    width: 65%;
-}
 
+#sentinel{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    color: #f1a566;
+    font-size: 14px;
+    
+}
+.interact{
+    position: relative;
+    bottom: 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.post_it{
+    width: 90%;
+    margin-left: 5%;
+}
+.commentDiv{
+    position: relative;
+    bottom: 0px;
+    display: flex;
+    flex-direction: row;
+}
+.likeDiv{
+    position: relative;
+    bottom: 0px;
+    display: flex;
+    flex-direction: row;
+}
+.likes{
+    color: grey ;
+    font-size: 15px;
+}
+template{
+    width: 90%;
+    margin-left: 5%;
+}
+.like{
+    width: 70px;
+    margin: 0px;
+}
+.comment{
+    margin: 0px;
+    margin-top: 15px;
+    width: 40px;
+    height: 40px;
+}
+.topic_diary{
+    color: rgb(72, 72, 72); font-size :16px ;
+}
 main{
     display: flex;
     flex-direction: row;
@@ -265,6 +313,14 @@ main{
     overflow: hidden;
     border-radius: 50%;
   }
+  .pages{
+    bottom: 0px;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 0px;
+    padding-top: 0px;
+    margin-top: 100px;
+  }
   .medias img{
     position: relative;
     width: 150px;
@@ -288,11 +344,11 @@ main{
     align-items: flex-start;
     justify-content: flex-start;
     position: relative;
-    top: 0px;
+    margin-top: 20px;
   }
   .acc-img img{
-      width: 100px;
-      height: 100px;
+      width:70px;
+      height: 70px;
   }
   .acc-img-dash{
     width: 10%;
@@ -320,7 +376,6 @@ main{
       width: 10%;
       display: flex;
       flex-direction: row;
-      ;
   }
   .today{
     background-color: #ffffff;
@@ -374,21 +429,55 @@ main{
       width: 65%;
   }
   .topic_diary{
-    margin-top: -5%;
-    left: 120px;
+    margin-top: -1%;
+    left: 100px;
     width: 50%;
     position: relative;
+  }
+  .posts-accpst{
+    position: relative;
+    top: 100px;
+    padding-left: 4.6%;
+    width: 80vw;
+    border:1px solid #b1b1b1;
+    border-left: 0px;
+    border-right: 0px;
+    min-height: 20vh;
+  }
+  .unfollow{
+    color: white;
+    padding-left:10px;padding-right:10px;
+        background-color:rgb(167, 25, 25);
+        text-decoration: none;  font-size: 14px;
+        border-radius: 10px;
+        margin-left: 50%;
+  }
+  .follow{
+    color: white;
+    padding-left:10px;padding-right:10px;
+    background-color:rgb(136, 255, 103);
+    text-decoration: none; color: white;
+     font-size: 14px; border-radius: 10px;
+     margin-left: 50%;
+  }
+  #username{
+      margin-top:6px;
+  }
+  .likesCount{
+      font-size: 14px;
+      color:grey;
   }
   .posts{
     position: relative;
     top: 100px;
     padding-left: 5%;
-    padding-bottom: 5%;
-    margin-bottom: 40px;
     width: 70vw;
     border:0.01px solid #b1b1b1;
-    border-radius: 50px;
-    
+    border-left: 0px;
+    border-right: 0px;
+    width: 90%;
+    left: 5%;
+    min-height: 20vh;
   }
   .diary-post{
     margin-bottom: 0px;
@@ -397,17 +486,31 @@ main{
   .acc-img{
     display: flex;
     flex-direction: row;
-
+    width: 90%;
   }
-
+.follow:hover{
+    cursor: pointer;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left:15px;padding-right:15px;
+    border-radius: 30px;
+}
+.unfollow:hover{
+    cursor: pointer;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left:15px;padding-right:15px;
+    border-radius: 30px;
+}
   .account-btn{
-      position: relative;
+    position: relative;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-end;
     float: right;
     right: -20vw;
+    top:5vh;
   }
 
   .edit{
@@ -419,10 +522,8 @@ main{
       border-radius: 30px;
   }
   .media-body{
-      position: relative;
-      top: 100px;
-      margin-left: 40px;
-      width: 1%;
+      margin-top: 100px;
+      margin-left:-7vw
   }
   .edit:hover{
       cursor: pointer;
@@ -461,7 +562,7 @@ main{
   
   .account-heading {
     font-size: 4vh;
-    width: 1%;
+    width: 50vw;
   }
 .friend{
     z-index: -1;
@@ -623,7 +724,7 @@ textarea {
 .today:active{
     border: none;
 }
-.btn{
+.btns{
     font-family: sans-serif;
     font-size: 16px;
     background-color: #f1a566;
@@ -635,7 +736,7 @@ textarea {
     border-radius: 20px;
     color: rgb(255, 255, 255);
 }
-.btn:hover{
+.btns:hover{
     background-color: #f0b17d;
     cursor: pointer;
 }
@@ -728,7 +829,19 @@ h1{
     .form-post{
         left: 12vw;
     }
-    
+    .account-heading{
+        margin-left: -9vw;
+    }
+    .media-body{
+        margin-top: 125px;
+    }
+    .account-btn{
+        top:7vh;
+        width: 25vw;
+    }
+    .posts-accpst{
+        left: 2%;
+    }
 }
 /*for mobile*/
 @media only screen and (max-width: 568px) {
@@ -745,6 +858,12 @@ h1{
             font-size: 14px;
             overflow-x: hidden;
             
+        }
+        .posts-accpst{
+            left:10%;
+        }
+        .account-heading{
+            margin-left: -13vw;
         }
         .medias{
             position: relative;
@@ -764,7 +883,15 @@ h1{
             margin-left:40% ;
             width: 60%;
         }
-        
+        .contet_diary{
+            text-align: left;
+            margin-left: 100px;
+            margin-bottom: 0px;
+            position: relative;
+            word-wrap: break-word;
+            color: rgb(72, 72, 72); 
+            font-size :14px ;
+        }
     #topnav {
         display: flex;
         flex-direction: row;

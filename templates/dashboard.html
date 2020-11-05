@@ -8,8 +8,10 @@
 <a href="/topic/{{username}}/{{ row.tweet_id }}"> {{ row.topic[0:10] }}</a>
 {% endfor %}
 -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <a href="/account/{{current_user.username}}"><img src="../static/images/profile.png" alt="" style="width: 28px;"></a>
 <a href="/account/{{ username }}" style="margin-top: 50vh;"class="accounts"><img class="rounded-circle account-img" src="{{ image_file }}"></a>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 {% endblock %}
 {% block body %}
 {% block topnav%}
@@ -20,48 +22,186 @@
 <div class="post-it">
 
         <div class="acc-img-dash">
-            <a href="/account" class="usernames"><img class="rounded-circle account-img" src="{{ image_file }}"><!--<p class="username">{{ username }}    </p>--></a></div>
+            <a href="/account" class="usernames"><img class="rounded-circle account-img" src="{{ image_file }}" style="width: 10vh;height: 10vh;"><!--<p class="username">{{ username }}    </p>--></a></div>
 
 </div>
 <!--<h3 style="vertical-align: middle; text-align: center; color: rgb(74, 74, 74); text-decoration: none;">{{ username}} Your Diary</h3>-->
 <div class="form-post">
-<!--<form action="/submitDiary" method="post" class="add" autocomplete="off">
-    <input name = "topic" type="text" class="heading" placeholder="Todays Topic">
-    <textarea name="text" class="today" placeholder="Write todays story....."></textarea><br>
-    <input type="submit" class="btn">
-</form>-->
+
 <form method="POST" class="add" autocomplete="off">
 
         {{ form.hidden_tag() }}
             {{ wtf.form_field(form.topic,class='heading') }}
             {{ wtf.form_field(form.content,class='today') }}
-            {{ wtf.form_field(form.submit) }}
+            {{ wtf.form_field(form.submit,class='btns') }}
 </form>
+
 </div>
-{% for tweet in all_tweets %}
-            <div class="posts">
-                <div class="media-left">
-                    <a href="#">
-                        <img src="" alt="" />
-                    </a>
+
+             
+
+                    <!-- div to contain the content -->
+                    <div id="scroller" class="post_it">
+          
+                      <!-- template schema, hidden from the dom -->
+                      <template id="post_template">
+          
+                        
+          
+                      </template>
+          
+                    </div>
+          
+                    <!-- element to trigger the IntersectionObserver -->
+                    <div class="" id="sentinel" style="margin-top: 100px;margin-bottom: 50px;">
+                      <div class="spinner-border" role="status"></div>
+                    </div>
+          
+                  </div>
                 </div>
-                <div class="acc-img">
-                    <a href="/account/{{ tweet.poster.username }}" class="usernames"><img class="rounded-circle account-img" src="{{ tweet.poster.image_file }}"><p class="username">{{ tweet.poster.username }}</p></a>
-                </div>
-                <h3 class="topic_diary" style="color: rgb(72, 72, 72); font-size :16px ;">{{ tweet.topic }}</h3>
-                <p class="contet_diary" style="color: rgb(72, 72, 72); font-size :14px ;">{{ tweet.content }}</p>    
-                   
-                    
-                </div>
-            </div>
-            {% endfor %}
-</div>
+             
+         
 <script>
-    var all = hold.getElementsByClass(".control-label");
-        for (var i=0; i < all.length; i++){
-            var parent = all[i].parentElement;
-            parent.removeChild(all[i])
-            }
+var scroller = document.querySelector("#scroller");
+var template = document.querySelector('#post_template');
+var sentinel = document.querySelector('#sentinel');
+
+// Set a counter to count the items loaded
+var counter = 0;
+
+// Function to request new items and render to the dom
+function loadItems() {
+
+  // Use fetch to request data and pass the counter value in the QS
+  fetch(`/load?c=${counter}`).then((response) => {
+    // Convert the response data to JSON
+    response.json().then((data) => {
+      // If empty JSON, exit the function
+      if (!data.length) {
+
+        // Replace the spinner with "No more posts"
+        sentinel.innerHTML = "No more posts";
         
+        return;
+      }
+      // Iterate over the items in the response
+      for (var i = 0; i < data.length; i++) {
+          var div = document.createElement("div");
+          var likeDiv = document.createElement("div");
+          var commentDiv = document.createElement("div");
+          var img = document.createElement('div');
+          var img_anc = document.createElement('a');
+          var img_tag = document.createElement('img');
+          var interact = document.createElement('div');
+          var comment = document.createElement('img');
+          var like = document.createElement('img');
+          var username = document.createElement('p');
+          var h3 = document.createElement('h3');
+          var content = document.createElement('p');
+          var likeCount = document.createElement('a');
+          scroller.appendChild(div)
+          let template_clone = template.content.cloneNode(true);
+          div.appendChild(img);
+          div.classList.add("posts");
+          img.appendChild(img_anc);
+          img.appendChild(username);
+          div.appendChild(h3);
+          div.appendChild(content);
+          
+          div.appendChild(interact);
+          
+          interact.classList.add("interact");
+          img_anc.appendChild(img_tag);
+          img_anc.appendChild(username);
+          interact.appendChild(commentDiv);
+          commentDiv.classList.add("comments")
+          commentDiv.appendChild(comment);
+          comment.classList.add("comment");
+          interact.appendChild(likeDiv);
+          likeDiv.appendChild(like);
+          likeDiv.appendChild(likeCount);
+          likeDiv.classList.add("likes");
+          like.classList.add("like");
+          likeCount.classList.add(`likesCount${data[i].id}`);
+          likeCount.setAttribute("id",`likesCount${data[i].id}`);
+          like.setAttribute("id","like");
+          username.append(`${data[i].poster.username}`);
+          h3.append(`${data[i].topic}`);
+          content.append(`${data[i].content}`);
+          comment.setAttribute("src","./static/images/comment-1702559-1486974.webp");
+          comment.setAttribute("style","cursor:pointer");
+          
+          like.setAttribute("style","cursor:pointer");
+          like.setAttribute("post_id",`${data[i].id}`);
+          likeCount.innerHTML = `${data[i].likes}`;
+          
+          //console.log(data[i].id);
+          if (data[i].liked){
+            like.setAttribute("id","unlike");
+            like.setAttribute("src","./static/images/Liked.webp?v=1.2");
+            
+            
+          }else{
+            like.setAttribute("id","like");
+            like.setAttribute("src","./static/images/Media-Icon-25-512.webp");
+            
+          }
+          
+          img_tag.setAttribute("src",`${data[i].poster.image_file}`);
+          img_anc.setAttribute("href",`/account/${data[i].poster.username}`);
+          username.classList.add("username");
+          img_anc.classList.add("usernames");
+          
+          img.classList.add("acc-img");
+          img_tag.classList.add("account-img");
+          h3.classList.add("topic_diary");
+          content.classList.add("contet_diary");
+          like.setAttribute("onclick",`likePost(this)`);
+          // Clone the HTML template
+          
+
+
+        // Append template to dom
+        scroller.appendChild(template_clone);
+        // Increment the counter
+        counter += 1;
+
+        // Update the counter in the navbar
+        
+      }
+    
+})
+
+  })
+}
+
+
+// Create a new IntersectionObserver instance
+var intersectionObserver = new IntersectionObserver(entries => {
+
+  // Uncomment below to see the entry.intersectionRatio when
+  // the sentinel comes into view
+
+  // entries.forEach(entry => {
+  //   console.log(entry.intersectionRatio);
+  // })
+
+  // If intersectionRatio is 0, the sentinel is out of view
+  // and we don't need to do anything. Exit the function
+  if (entries[0].intersectionRatio <= 0) {
+    return;
+  }
+
+  // Call the loadItems function
+  loadItems();
+
+  
+});
+
+
+// Instruct the IntersectionObserver to watch the sentinel
+intersectionObserver.observe(sentinel);
+
+
 </script>
 {% endblock %}
